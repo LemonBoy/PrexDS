@@ -1,0 +1,150 @@
+#
+# Prex system configuration file
+#
+
+#
+# Make options
+#
+
+makeoptions PATH := $(DEVKITARM)/bin:$(PATH)
+
+# ajout de -mlong-calls car les drivers étaient trop loin du kernel (b relatif 24 bits)
+#makeoptions CFLAGS+= -march=armv5te -mtune=arm946e-s -ffast-math -mthumb -mthumb-interwork 
+# thumb reloc doesn't seems to be supported
+makeoptions CFLAGS+= -march=armv5te -mtune=arm946e-s -mno-thumb
+makeoptions CFLAGS+= -O0 -g -DDEBUG 
+makeoptions CFLAGS+= -DDEBUG_ELF 
+
+makeoptions ACPPFLAGS += -O0 -g
+
+makeoptions DEBUG=1
+
+
+#
+# Memory address
+#
+
+# Loader chargé automatiquement en 0x02000000 au démarrage
+# Pour l'instant sa taille est fixée à 0xFFFF
+memory      LOADER_TEXT 0x02000000  # Start of boot loader
+
+# Le loader est concaténé avec une archive contenant le code à relocaliser
+memory      BOOTIMG_BASE    0x02002000  # Location of boot image
+
+# Kernel dans l'itcm
+#memory      KERNEL_TEXT 0x01000000  # Start of kernel
+memory      KERNEL_TEXT 0x02100000
+
+# Page système dans la dtcm
+memory      SYSPAGE_BASE    0x0b000000  # Location of system page
+
+#
+# Tunable paramters
+#
+options     HZ=1000     # Ticks/second of the clock
+options     TIME_SLICE=50   # Context switch ratio (msec)
+options     OPEN_MAX=16 # Max open files per process
+options     BUF_CACHE=32    # Blocks for buffer cache
+options     FS_THREADS=4    # Number of file system threads
+
+#
+# Platform settings
+#
+options     ARM926EJS   # Processor core
+#options    MMU     # Memory management unit
+#options     CACHE       # Cache memory
+#options    FPU     # Floating point unit
+#options    ROMBOOT     # Boot from ROM
+#options     BOOTDISK    # Disk for /boot directory
+
+#
+# General setup
+#
+options     POSIX       # POSIX support
+options     CMDBOX      # Core utilities
+options     TINY        # Optimize for size
+
+#
+# Kernel hacking
+#
+#options    KD      # Kernel debugger
+#options    AUDIT       # Security auditing
+
+#
+# Diagnostic options
+#
+options     DIAG_DESMUME    # Diagnostic via desmume emulater
+
+#
+# File systems
+#
+#options     FIFOFS      # FIFO & Pipe
+options     DEVFS       # Device file system
+options     RAMFS       # RAM file system
+options     ARFS        # Archive file system
+#options    FATFS       # FAT file system
+
+#
+# Power management
+#
+#options    PM      # Power management
+#options    PM_POWERSAVE    # Power policy: Battery optimized
+#options    PM_PERFORMANCE  # Power policy: Parformance optimized
+
+#
+# Device drivers (initialization order)
+#
+#device     pm      # Power management
+device      cons        # System console
+device      wscons      # Workstation console
+#device      lcd     # GBA LCD video (parent:wscons)
+#device      swkbd       # Software Keyboard (parent:wscons)
+#device      keypad      # GBA keypad (parent:swkbd)
+#device      null        # NULL device
+#device      zero        # Zero device
+#device      ramdisk     # RAM disk
+
+#
+# Hardware configuations
+#
+
+
+#
+# Command box
+#
+command     cat
+command     clear
+command     cp
+command     date
+command     dmesg
+command     echo
+command     free
+command     head
+command     hostname
+command     kill
+command     ls
+command     mkdir
+command     more
+command     mv
+command     nice
+command     printenv
+command     ps
+command     pwd
+command     rm
+command     rmdir
+command     sh
+command     sleep
+command     sync
+#command    test
+command     touch
+command     uname
+
+#
+# Adminisrative tools
+#
+command     diskutil
+command     install
+command     pmctrl
+command     ktrace
+command     lock
+command     debug
