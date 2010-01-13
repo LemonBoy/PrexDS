@@ -12,6 +12,7 @@
 !/usr/
 *.ko
 *.o
+*.elf
 *.rt
 *.lst
 *.map
