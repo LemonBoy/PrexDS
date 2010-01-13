@@ -517,7 +517,6 @@ void
 sched_lock(void)
 {
 	curthread->locks++;
-	printf("sched_lock : curthread->locks = %d\n", curthread->locks);
 }
 
 /*
@@ -532,7 +531,6 @@ void
 sched_unlock(void)
 {
 	int s;
-	printf("sched_unlock : curthread->locks = %d\n", curthread->locks);
 	ASSERT(curthread->locks > 0);
 
 	s = splhigh();

@@ -217,10 +217,6 @@ ENTRY(boot_entry)
     @ldr sp, stack_end
     ldr sp, =0x0b003900
 
-    mov r0,#0x04000000
-    mov r1,#0x00010000
-    str r1,[r0]
-
     b   main
 
 /* to make the bootloader size 0x1FFF (see boot/arm/arch/boot.ld) */

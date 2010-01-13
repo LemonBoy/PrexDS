@@ -24,6 +24,6 @@ endif
 	$(CAT) $(LOADER) tmp.a > $@
 	$(RM) tmp.a
 	$(call sysgen)
-	@ndstool -c prexos.nds -9 $(TARGET) -b $(GAME_ICON) "$(GAME_TITLE);$(GAME_SUBTITLE1);$(GAME_SUBTITLE2)"
+	@ndstool -c PrexDS.nds -9 $(TARGET) -b $(GAME_ICON) "$(GAME_TITLE);$(GAME_SUBTITLE1);$(GAME_SUBTITLE2)"
 	$(RM) $(TARGET)
 	@echo 'Done.'

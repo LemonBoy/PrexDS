@@ -39,7 +39,7 @@
 void
 debug_putc(int c)
 {
-    #if defined(DEBUG)
+    #if defined(DEBUG) && defined(CONFIG_DIAG_DESMUME)
 
     static char buf[81];
     static int i = 0;

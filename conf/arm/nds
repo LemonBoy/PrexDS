@@ -8,15 +8,17 @@
 
 makeoptions PATH := $(DEVKITARM)/bin:$(PATH)
 
-# ajout de -mlong-calls car les drivers étaient trop loin du kernel (b relatif 24 bits)
-#makeoptions CFLAGS+= -march=armv5te -mtune=arm946e-s -ffast-math -mthumb -mthumb-interwork 
 # thumb reloc doesn't seems to be supported
+# TODO add  -mthumb -mthumb-interwork when thumb will be supported
+
 makeoptions CFLAGS+= -march=armv5te -mtune=arm946e-s -mno-thumb
-makeoptions CFLAGS+= -O0 -g -DDEBUG 
-makeoptions CFLAGS+= -DDEBUG_ELF 
 
+# Debugging options
+
+makeoptions CFLAGS    += -O0 -g -DDEBUG 
+makeoptions CFLAGS    += -DDEBUG_ELF 
+makeoptions CFLAGS    += -DDEBUG_BOOTINFO 
 makeoptions ACPPFLAGS += -O0 -g
-
 makeoptions DEBUG=1
 
 
@@ -24,24 +26,23 @@ makeoptions DEBUG=1
 # Memory address
 #
 
-# Loader chargé automatiquement en 0x02000000 au démarrage
-# Pour l'instant sa taille est fixée à 0xFFFF
+# Loader automatically loaded at 0x02000000 by the DS firmware
 memory      LOADER_TEXT 0x02000000  # Start of boot loader
 
-# Le loader est concaténé avec une archive contenant le code à relocaliser
+# The Boot Image is concatenated with the Loader, loaded by the the DS firmware
 memory      BOOTIMG_BASE    0x02002000  # Location of boot image
 
-# Kernel dans l'itcm
-#memory      KERNEL_TEXT 0x01000000  # Start of kernel
+# Kernel relocated by the Loader
+# TODO relocate it in itcm when it will work
 memory      KERNEL_TEXT 0x02100000
 
-# Page système dans la dtcm
+# System Page in dtcm
 memory      SYSPAGE_BASE    0x0b000000  # Location of system page
 
 #
 # Tunable paramters
 #
-options     HZ=1000     # Ticks/second of the clock
+options     HZ=66000     # Ticks/second of the clock
 options     TIME_SLICE=50   # Context switch ratio (msec)
 options     OPEN_MAX=16 # Max open files per process
 options     BUF_CACHE=32    # Blocks for buffer cache
