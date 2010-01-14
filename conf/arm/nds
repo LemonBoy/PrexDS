@@ -16,7 +16,7 @@ makeoptions CFLAGS+= -march=armv5te -mtune=arm946e-s -mno-thumb
 # Debugging options
 
 makeoptions CFLAGS    += -O0 -g -DDEBUG 
-makeoptions CFLAGS    += -DDEBUG_ELF 
+#makeoptions CFLAGS    += -DDEBUG_ELF 
 makeoptions CFLAGS    += -DDEBUG_BOOTINFO 
 makeoptions ACPPFLAGS += -O0 -g
 makeoptions DEBUG=1

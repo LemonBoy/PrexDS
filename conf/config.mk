@@ -17,7 +17,6 @@ STRIP=arm-eabi-strip
 PATH := $(DEVKITARM)/bin:$(PATH)
 CFLAGS+= -march=armv5te -mtune=arm946e-s -mno-thumb
 CFLAGS    += -O0 -g -DDEBUG
-CFLAGS    += -DDEBUG_ELF
 CFLAGS    += -DDEBUG_BOOTINFO
 ACPPFLAGS += -O0 -g
 DEBUG=1

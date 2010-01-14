@@ -213,29 +213,17 @@ relocate_section_rel(Elf32_Sym *sym_table, Elf32_Rel *rel,
 	for (i = 0; i < nr_reloc; i++) {
 		sym = &sym_table[ELF32_R_SYM(rel->r_info)];
 
-		/*printf("name  : %s\n", strtab + sym->st_name);
-		printf("value : %x\n", sym->st_value);
-		printf("size  : %x\n", sym->st_size);
-		printf("info  : %x\n", sym->st_info);
-		printf("other : %x\n", sym->st_other);
-		printf("shndx : %x\n", sym->st_shndx);*/
-
 		ELFDBG(("%s\n", strtab + sym->st_name));
 
-		if (sym->st_shndx != STN_UNDEF) {
+		if (sym->st_shndx != STN_UNDEF || ELF32_R_TYPE(rel->r_info) == R_ARM_V4BX) {
 			sym_val = (Elf32_Addr)sect_addr[sym->st_shndx]
 				+ sym->st_value;
 			if (relocate_rel(rel, sym_val, target_sect) != 0)
 				return -1;
 		} else if (ELF32_ST_BIND(sym->st_info) != STB_WEAK) {
-                        /** FIXME */
-		        if(sym->st_size + sym->st_info + sym->st_other + sym->st_shndx == 0) {
-		            printf("que des zeros\n");
-		        } else {
-		            DPRINTF(("Undefined symbol for rel[%x] sym=%lx\n",
-		                    i, (long)sym));
-		            return -1;
-		        }
+		    DPRINTF(("Undefined symbol for rel[%x] sym=%lx\n",
+		            i, (long)sym));
+		    return -1;
 		} else {
 			DPRINTF(("Undefined weak symbol for rel[%x]\n", i));
 		}

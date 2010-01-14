@@ -62,6 +62,21 @@ relocate_rel(Elf32_Rel *rel, Elf32_Addr sym_val, char *target_sect)
 			(long)where, (long)*where));
 		break;
 
+	/**
+	 * Added by cyril to support devkitARM
+	 * http://lists.openwall.net/linux-kernel/2009/03/29/72
+	 */
+	case R_ARM_V4BX:
+		/* Preserve Rm and the condition code. Alter
+		 * other bits to re-code instruction as
+		 * MOV PC,Rm.
+		 */
+		*where &= 0xf000000f;
+		*where |= 0x01a0f000;
+		ELFDBG(("R_ARM_V4BX: %lx -> %lx\n",
+		        (long)where, (long)*where));
+		break;
+
         case R_ARM_THM_PC22 :
             /* TODO -mthumb -mthumb-interwork will require to support this type */
 
