@@ -15,7 +15,8 @@ OBJCOPY=arm-eabi-objcopy
 OBJDUMP=arm-eabi-objdump
 STRIP=arm-eabi-strip
 PATH := $(DEVKITARM)/bin:$(PATH)
-CFLAGS+= -march=armv5te -mtune=arm946e-s -mno-thumb
+GCCFLAGS+= -mcpu=arm9tdmi -fno-dwarf2-cfi-asm
+ASFLAGS+= -mfpu=softfpa
 CFLAGS    += -O0 -g -DDEBUG
 CFLAGS    += -DDEBUG_BOOTINFO
 ACPPFLAGS += -O0 -g

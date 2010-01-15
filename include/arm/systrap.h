@@ -30,7 +30,8 @@
 #ifndef _ARM_SYSTRAP_H
 #define _ARM_SYSTRAP_H
 
-#if defined(__gba__)
+/** FIXME added nds without checking if appropriate */
+#if defined(__gba__) || defined(__nds__)
 
 /*
  * Note:

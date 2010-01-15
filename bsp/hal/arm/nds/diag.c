@@ -35,13 +35,14 @@
 #include <kernel.h>
 #include <cpufunc.h>
 
-#include "platform.h"
 #include "desmume.h"
 
 void
 diag_puts(char *buf)
 {
+    #if defined(DEBUG) && defined(CONFIG_DIAG_DESMUME)
     desmume_puts(buf);
+    #endif
 }
 
 void

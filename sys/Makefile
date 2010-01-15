@@ -6,7 +6,7 @@ TARGET:=	prex
 
 #MAP:=		prex.map
 DISASM:= 	prex.lst
-#SYMBOL:= 	prex.sym
+SYMBOL:= 	prex.sym
 
 _KERNEL_:=	1
 DEFS+=		KERNEL

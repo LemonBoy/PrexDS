@@ -436,7 +436,6 @@ timer_handler(void)
 u_long
 timer_ticks(void)
 {
-
 	return lbolt;
 }
 

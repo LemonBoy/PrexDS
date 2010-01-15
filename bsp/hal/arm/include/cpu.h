@@ -48,7 +48,8 @@
 #define PSR_FIQ_DIS	0x00000040
 #define PSR_IRQ_DIS	0x00000080
 
-#ifdef __gba__
+/** FIXME added nds without checking if appropriate */
+#if defined(__gba__) || defined(__nds__)
 #define PSR_APP_MODE	PSR_SYS_MODE
 #else
 #define PSR_APP_MODE	PSR_USR_MODE

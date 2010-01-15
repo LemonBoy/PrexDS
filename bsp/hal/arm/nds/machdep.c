@@ -41,8 +41,6 @@
 #include <cpufunc.h>
 #include <locore.h>
 
-#include "platform.h"
-
 /*
  * Idle
  */

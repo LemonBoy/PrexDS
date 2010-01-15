@@ -6,7 +6,7 @@ TARGET:=	bootldr
 
 #MAP:=		bootldr.map
 DISASM:= 	bootldr.lst
-#SYMBOL:=	bootldr.sym
+SYMBOL:=	bootldr.sym
 
 _KERNEL_:=	1
 DEFS+=		KERNEL

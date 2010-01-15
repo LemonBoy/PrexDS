@@ -76,7 +76,6 @@ calibrate_delay(void)
 
 		ticks = timer_ticks();
 		while (ticks == timer_ticks());
-
 		ticks = timer_ticks();
 		delay_loop(delay_count);
 		if (ticks != timer_ticks())
@@ -84,6 +83,8 @@ calibrate_delay(void)
 	}
 	delay_count >>= 1;
 	test_bit = delay_count;
+
+	printf("delay_count = %d",delay_count);
 
 	for (;;) {
 		test_bit >>= 1;

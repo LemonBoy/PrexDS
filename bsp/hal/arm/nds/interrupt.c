@@ -39,10 +39,8 @@
 #include <context.h>
 #include <locore.h>
 
-#include "platform.h"
-
 /* Number of IRQ lines */
-#define NIRQS		25
+#define NIRQS   25
 
 #define IRQ_VECTOR      *(uint32_t *)0xb003ffc
 
