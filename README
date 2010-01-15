@@ -1,0 +1,7 @@
+/!\ Warning /!\
+This is a draft port which doesn't even works on emulators nor hardware.
+
+Building instructions (with devkitARM r27) :
+
+./configure --target=arm-nds --cross-prefix=arm-eabi-
+make
