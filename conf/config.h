@@ -17,6 +17,7 @@
 #define CONFIG_CMDBOX y
 #define CONFIG_TINY y
 #define CONFIG_DIAG_DESMUME y
+#define CONFIG_DIAG_SCREEN y
 #define CONFIG_DEVFS y
 #define CONFIG_RAMFS y
 #define CONFIG_ARFS y

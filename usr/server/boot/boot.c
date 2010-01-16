@@ -308,12 +308,10 @@ main(int argc, char *argv[])
 	 * Initialize a library for file I/O.
 	 */
 	fslib_init();
-
 	/*
 	 * Mount file systems.
 	 */
 	mount_fs();
-
 	/*
 	 * Copy some files.
 	 * Note that almost applications including 'init'

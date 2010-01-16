@@ -102,5 +102,4 @@ calibrate_delay(void)
 	}
 	delay_count *= 1000;	/* count per 1sec */
 	delay_count /= 1000;	/* count per 1ms */
-	DPRINTF(("ok count=%ld\n", delay_count));
 }

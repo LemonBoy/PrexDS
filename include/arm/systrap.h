@@ -31,7 +31,7 @@
 #define _ARM_SYSTRAP_H
 
 /** FIXME added nds without checking if appropriate */
-#if defined(__gba__) || defined(__nds__)
+#if defined(__gba__)
 
 /*
  * Note:
@@ -48,10 +48,27 @@
 name##: \
 	stmfd sp!, {r4, r5, lr}; \
 	mov r4, #SYS_##name; \
-	ldr r5, =0x200007c; \
+	ldr r5, =0x200007c \
 	add lr, pc, #2; \
 	mov pc, r5; \
 	ldmfd sp!, {r4, r5, pc};
+
+#elif defined(__nds__)
+
+/**
+ * same as GBA with a different entry point
+ * FIXME relocation fails with =syscall_entry, so it's hardcoded
+ */
+
+#define SYSCALL0(name) \
+        .global name; .align; \
+name##: \
+        stmfd sp!, {r4, r5, lr}; \
+        mov r4, #SYS_##name; \
+        ldr r5, =0x2100224; \
+        add lr, pc, #2; \
+        mov pc, r5; \
+        ldmfd sp!, {r4, r5, pc};
 
 #else
 
