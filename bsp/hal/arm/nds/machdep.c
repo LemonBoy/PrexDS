@@ -41,6 +41,8 @@
 #include <cpufunc.h>
 #include <locore.h>
 
+#include "exceptions.h"
+
 /*
  * Idle
  */
@@ -116,5 +118,6 @@ machine_startup(void)
 	 */
 	cpu_init();
 	/*cache_init();*/
-
+	/**setExceptionHandler();*/
+	/**(volatile unsigned int *)8192 = 100;*/
 }

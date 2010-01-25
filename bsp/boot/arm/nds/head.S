@@ -215,7 +215,7 @@ ENTRY(boot_entry)
     mov r0, #0xd3       /* Enter SVC mode, Disable IRQ,FIQ */
     msr cpsr_c, r0
     @ldr sp, stack_end
-    ldr sp, =0x0b003900
+    ldr sp, =BOOTSTKTOP
 
     b   main
 

@@ -6,9 +6,13 @@ SRCS:=		arm/arch/locore.S \
 		arm/arch/context.c \
 		arm/nds/interrupt.c \
 		arm/nds/clock.c \
-		arm/nds/machdep.c
+		arm/nds/machdep.c \
+		arm/nds/exceptions.c \
+		arm/nds/exceptionHandler.S
 
 ifeq ($(DEBUG),1)
-SRCS+=		arm/nds/desmume.S
-SRCS+=		arm/nds/diag.c
+SRCS+=	arm/nds/diag/desmume.S \
+		arm/nds/diag/diag.c \
+		arm/nds/diag/screen.c \
+		arm/nds/diag/font.c
 endif
