@@ -6,7 +6,7 @@ SRCS:=		main.c exec_execve.c exec_conf.c exec_cap.c \
 		$(SRCDIR)/usr/arch/$(ARCH)/elf_reloc.c
 
 #MAP:=		exec.map
-#DISASM:= 	exec.lst
+DISASM:= 	exec.lst
 #SYMBOL:= 	exec.sym
 
 include $(SRCDIR)/mk/prog.mk

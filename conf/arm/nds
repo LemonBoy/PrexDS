@@ -21,6 +21,7 @@ makeoptions CFLAGS+= -march=armv5te -mtune=arm946e-s -mno-thumb
 makeoptions CFLAGS    += -O0 -g -DDEBUG 
 #makeoptions CFLAGS    += -DDEBUG_ELF 
 makeoptions CFLAGS    += -DDEBUG_BOOTINFO 
+makeoptions CFLAGS    += -DDEBUG_EXEC
 makeoptions CFLAGS    += -DDEBUG_VFS 
 makeoptions ACPPFLAGS += -O0 -g
 makeoptions DEBUG=1
@@ -41,8 +42,8 @@ memory      BOOTIMG_BASE    0x02002000  # Location of boot image
 memory      KERNEL_TEXT 0x02100000
 
 # System Page in dtcm
-memory      SYSPAGE_BASE    0x0b000000  # Location of system page
-
+#memory      SYSPAGE_BASE    0x0b000000  # Location of system page
+memory      SYSPAGE_BASE    0x02180000
 #
 # Tunable paramters
 #

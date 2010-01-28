@@ -23,19 +23,9 @@ endif
 
 include $(SRCDIR)/mk/common.mk
 
-$(TARGET).elf: $(OBJS) $(LIBS) $(LDSCRIPT)
+$(TARGET): $(OBJS) $(LIBS) $(LDSCRIPT)
 	$(call echo-file,LD     ,$@)
 	$(LD) $(LDFLAGS) $(OUTPUT_OPTION) $(OBJS) $(LIBS) $(PLATFORM_LIBS)
 	$(ASMGEN)
 	$(SYMGEN)
-
-$(TARGET): $(TARGET).elf
-	$(OBJCOPY) -S -O binary $< $@
-#	ndstool -c bootldr.nds -9 $(TARGET)
-
-#$(TARGET): $(OBJS) $(LIBS) $(LDSCRIPT)
-#	$(call echo-file,LD     ,$@)
-#	$(LD) $(LDFLAGS) $(OUTPUT_OPTION) $(OBJS) $(LIBS) $(PLATFORM_LIBS)
-#	$(ASMGEN)
-#	$(SYMGEN)
-#	$(OBJCOPY) -O binary -R .note -R .comment -S $@
+	$(OBJCOPY) -O binary -R .note -R .comment -S $@
