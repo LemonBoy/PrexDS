@@ -42,8 +42,6 @@
 /* Number of IRQ lines */
 #define NIRQS   25
 
-#define IRQ_VECTOR      *(uint32_t *)0xb003ffc
-
 /* Registers for interrupt control unit - enable/flag/master */
 #define ICU_IE          (*(volatile uint32_t *)0x4000210)
 #define ICU_IF          (*(volatile uint32_t *)0x4000214)
@@ -184,14 +182,6 @@ interrupt_init(void)
 		mask_table[i] = 0;
 
 	ICU_IME = IRQ_OFF;
-
-        /*
-         * Since GBA has its own interrupt vector in ROM area,
-         * we can not modify it. Instead, the GBA BIOS will
-         * call the user's interrupt hook routine placed in
-         * the address in 0x3007ffc.
-         */
-        IRQ_VECTOR = (uint32_t)interrupt_entry; /* Interrupt hook address */
         ICU_IE = 0;                     /* Mask all interrupts */
         ICU_IME = IRQ_ON;
 }
