@@ -14,5 +14,5 @@
 
 desmume_puts:
 
-    swi 0xfc
+    swi 0xfcfcfc
     mov pc, lr
