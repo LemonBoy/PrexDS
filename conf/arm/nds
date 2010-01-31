@@ -8,13 +8,15 @@
 
 makeoptions PATH := $(DEVKITARM)/bin:$(PATH)
 
+
+# devkitARM options
 # thumb reloc doesn't seems to be supported
 # TODO add  -mthumb -mthumb-interwork when thumb will be supported
+#makeoptions CFLAGS+= -march=armv5te -mtune=arm946e-s -mno-thumb
 
-makeoptions CFLAGS+= -march=armv5te -mtune=arm946e-s -mno-thumb
-
-#makeoptions GCCFLAGS+= -mcpu=arm9tdmi -fno-dwarf2-cfi-asm
-#makeoptions ASFLAGS+= -mfpu=softfpa
+# Integrator port options
+makeoptions GCCFLAGS+= -mcpu=arm9tdmi -fno-dwarf2-cfi-asm
+makeoptions ASFLAGS+= -mfpu=softfpa
 
 # Debugging options
 
@@ -41,9 +43,10 @@ memory      BOOTIMG_BASE    0x02002000  # Location of boot image
 # TODO relocate it in itcm when it will work
 memory      KERNEL_TEXT 0x02200000
 
-# System Page in dtcm
-#memory      SYSPAGE_BASE    0x0b000000  # Location of system page
+# System page (stacks)
+# TODO relocate it in dtcm when it will work
 memory      SYSPAGE_BASE    0x02100000
+
 #
 # Tunable paramters
 #
