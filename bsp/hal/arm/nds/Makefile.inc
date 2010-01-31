@@ -6,9 +6,7 @@ SRCS:=		arm/arch/locore.S \
 		arm/arch/context.c \
 		arm/nds/interrupt.c \
 		arm/nds/clock.c \
-		arm/nds/machdep.c \
-		arm/nds/exceptions.c \
-		arm/nds/exceptionHandler.S
+		arm/nds/machdep.c
 
 ifeq ($(DEBUG),1)
 SRCS+=	arm/nds/diag/desmume.S \

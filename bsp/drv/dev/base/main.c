@@ -49,7 +49,6 @@ dkifn_t	*dki_table;		/* pointer to DKI function table */
 void
 driver_main(dkifn_t *dkient)
 {
-
 	dki_table = dkient;
 
 	DPRINTF(("Prex driver module built: " __DATE__ "\n"));

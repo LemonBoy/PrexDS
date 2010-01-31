@@ -53,7 +53,7 @@ name##: \
 	mov pc, r5; \
 	ldmfd sp!, {r4, r5, pc};
 
-#elif defined(__nds__)
+#elif defined(__oldnds__)
 
 /**
  * same as GBA with a different entry point

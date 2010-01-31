@@ -70,6 +70,7 @@ calibrate_delay(void)
 	u_long ticks, test_bit;
 
 	DPRINTF(("Calibrating delay loop... "));
+
 	delay_count = 1;
 	for (;;) {
 		delay_count <<= 1;

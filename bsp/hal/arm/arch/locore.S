@@ -254,8 +254,7 @@ ENTRY(cache_init)
  *	subs	pc, lr, #4
  */
 ENTRY(interrupt_entry)
-/** FIXME added nds without checking if appropriate */
-#if defined(__gba__) || defined(__nds__)
+#if defined(__gba__)
 	ldmfd	sp!, {r0-r3,r12,lr}	/* Discard GBA BIOS's stack */
 #endif
 	stmfd	sp, {r0-r4}		/* Save work registers */
@@ -318,8 +317,7 @@ interrupt_ret:
  */
 	.global syscall_ret
 ENTRY(syscall_entry)
-/** FIXME added nds without checking if appropriate */
-#if defined(__gba__) || defined(__nds__)
+#if defined(__gba__)
 	mov	r5, lr			/* Syscall stub already saved r5 */
 	mrs	r12, cpsr		/* Set processor to SVC mode */
 	bic	r12, r12, #PSR_MODE
@@ -336,8 +334,7 @@ ENTRY(syscall_entry)
 	str	r5, [sp, #REG_SVCSP]	/* Push svc_sp */
 	str	lr, [sp, #REG_SVCLR]	/* Push svc_lr */
 	str	lr, [sp, #REG_PC]	/* Push pc */
-/** FIXME added nds without checking if appropriate */
-#if !defined(__gba__) && !defined(__nds__)
+#if !defined(__gba__)
 	ldr	r4, [lr, #-4]		/* Get SWI number */
 	bic	r4, r4, #0xff000000
 

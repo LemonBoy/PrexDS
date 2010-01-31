@@ -41,15 +41,12 @@
 #include <cpufunc.h>
 #include <locore.h>
 
-#include "exceptions.h"
-
 /*
  * Idle
  */
 void
 machine_idle(void)
 {
-
 	cpu_idle();
 }
 
@@ -112,12 +109,9 @@ machine_abort(void)
 void
 machine_startup(void)
 {
-
 	/*
 	 * Initialize CPU and basic hardware.
 	 */
 	cpu_init();
-	/*cache_init();*/
-	/**setExceptionHandler();*/
-	/**(volatile unsigned int *)8192 = 100;*/
+	vector_copy((vaddr_t)0x01000000);
 }
