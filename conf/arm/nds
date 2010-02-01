@@ -12,11 +12,11 @@ makeoptions PATH := $(DEVKITARM)/bin:$(PATH)
 # devkitARM options
 # thumb reloc doesn't seems to be supported
 # TODO add  -mthumb -mthumb-interwork when thumb will be supported
-#makeoptions CFLAGS+= -march=armv5te -mtune=arm946e-s -mno-thumb
+makeoptions CFLAGS+= -march=armv5te -mtune=arm946e-s -mno-thumb
 
 # Integrator port options
-makeoptions GCCFLAGS+= -mcpu=arm9tdmi -fno-dwarf2-cfi-asm
-makeoptions ASFLAGS+= -mfpu=softfpa
+#makeoptions GCCFLAGS+= -mcpu=arm9tdmi -fno-dwarf2-cfi-asm
+#makeoptions ASFLAGS+= -mfpu=softfpa
 
 # Debugging options
 
@@ -76,14 +76,14 @@ options     TINY        # Optimize for size
 #
 # Kernel hacking
 #
-#options    KD      # Kernel debugger
+options    KD      # Kernel debugger
 #options    AUDIT       # Security auditing
 
 #
 # Diagnostic options
 #
-options     DIAG_DESMUME    # Diagnostic via desmume emulator
-#options     DIAG_SCREEN     # Diagnostic via DS screen
+#options     DIAG_DESMUME    # Diagnostic via desmume emulator
+options     DIAG_SCREEN     # Diagnostic via DS screen
 
 #
 # File systems

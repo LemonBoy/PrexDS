@@ -44,7 +44,7 @@
 #define CLOCK_RATE      33513982L
 
 /* The initial counter value */
-#define TIMER_COUNT     (CLOCK_RATE / HZ)
+#define TIMER_COUNT     (0xffff - (CLOCK_RATE / 64 / HZ))
 
 /* GBA timer registers */
 #define TMR0_COUNT      (*(volatile uint16_t *)0x4000100)
@@ -92,6 +92,7 @@ clock_init(void)
 
         /* Setup counter value */
         TMR0_COUNT = TIMER_COUNT;
+
         TMR0_CTRL = (uint16_t)(TMR_IRQEN | TMR_64_CLOCK);
 
         /* Install ISR */

@@ -15,8 +15,7 @@ OBJCOPY=arm-eabi-objcopy
 OBJDUMP=arm-eabi-objdump
 STRIP=arm-eabi-strip
 PATH := $(DEVKITARM)/bin:$(PATH)
-GCCFLAGS+= -mcpu=arm9tdmi -fno-dwarf2-cfi-asm
-ASFLAGS+= -mfpu=softfpa
+CFLAGS+= -march=armv5te -mtune=arm946e-s -mno-thumb
 CFLAGS    += -O0 -g -DDEBUG
 CFLAGS    += -DDEBUG_BOOTINFO
 CFLAGS    += -DDEBUG_EXEC
@@ -36,7 +35,8 @@ CONFIG_ARM926EJS=y
 CONFIG_POSIX=y
 CONFIG_CMDBOX=y
 CONFIG_TINY=y
-CONFIG_DIAG_DESMUME=y
+CONFIG_KD=y
+CONFIG_DIAG_SCREEN=y
 CONFIG_DEVFS=y
 CONFIG_RAMFS=y
 CONFIG_ARFS=y

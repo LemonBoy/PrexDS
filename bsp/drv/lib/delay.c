@@ -85,8 +85,6 @@ calibrate_delay(void)
 	delay_count >>= 1;
 	test_bit = delay_count;
 
-	printf("delay_count = %d",delay_count);
-
 	for (;;) {
 		test_bit >>= 1;
 		if (test_bit == 0)

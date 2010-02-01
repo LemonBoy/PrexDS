@@ -43,9 +43,9 @@
 #define NIRQS		22
 
 /* Registers for interrupt control unit - enable/flag/master */
-#define ICU_IE		(*(volatile uint32_t *)0x4000200)
-#define ICU_IF		(*(volatile uint32_t *)0x4000202)
 #define ICU_IME		(*(volatile uint16_t *)0x4000208)
+#define ICU_IE          (*(volatile uint32_t *)0x4000210)
+#define ICU_IF          (*(volatile uint32_t *)0x4000214)
 
 /* ICU_IE */
 #define IRQ_VALID	0x1fffff
