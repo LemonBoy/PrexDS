@@ -37,7 +37,7 @@
 #include <cpufunc.h>
 #include <sys/ipl.h>
 
-/* Interrupt vector for timer (TMR1) */
+/* Interrupt vector for timer (TMR0) */
 #define CLOCK_IRQ       3
 
 /* The clock rate per second - 1Mhz */

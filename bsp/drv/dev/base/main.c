@@ -53,6 +53,8 @@ driver_main(dkifn_t *dkient)
 
 	DPRINTF(("Prex driver module built: " __DATE__ "\n"));
 
+	printf("%x %x\n", (*(volatile uint16_t *)0x4000208), (*(volatile uint32_t *)0x4000200));
+
 #if defined(DEBUG) && defined(CONFIG_KD)
 	kd_init();
 #endif

@@ -3,7 +3,7 @@ include $(SRCDIR)/mk/own.mk
 TARGET:=	drv.ko
 
 #MAP:= 		drv.map
-#DISASM:= 	drv.lst
+DISASM:= 	drv.lst
 #SYMBOL:= 	drv.sym
 
 _RELOC_OBJ_:=	1
