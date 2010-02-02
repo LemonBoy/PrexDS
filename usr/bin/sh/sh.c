@@ -105,7 +105,7 @@ showprompt(void)
 	static char prompt[PATH_MAX+20];
 
 	getcwd(cwd, PATH_MAX);
-	sprintf(prompt, "\033[32m[prex:%s]\033[0m# ", cwd);
+	sprintf(prompt, "\033[32m[PrexDS:%s]\033[0m# ", cwd);
 	write(1, prompt, strlen(prompt));
 }
 
