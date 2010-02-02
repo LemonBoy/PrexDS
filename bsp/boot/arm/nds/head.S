@@ -28,31 +28,17 @@
  */
 
 /*
- * head.S - generic header code for ARM platforms.
+ * head.S - startup code.
  */
 
 #include <conf/config.h>
 #include <machine/memory.h>
 #include <machine/syspage.h>
 
-@---------------------------------------------------------------------------------
-@ DS processor selection
-@---------------------------------------------------------------------------------
-    .arch   armv5te
-    .cpu    arm946e-s
-@---------------------------------------------------------------------------------
+    .text
+    .align 2
 
-#define CP15_DTCM_ENABLE    (1 << 16)
-#define CP15_ITCM_ENABLE    (1 << 18)
-
-#define ENTRY(x) .global x; .align; x##:
-
-    .section ".text","ax"
-    .code 32
-/*
- * Loader entry point
- */
-ENTRY(boot_entry)
+boot_entry:
 
     /* Disable interrupts (IME = 0) */
     mov r0, #0x04000000
@@ -66,7 +52,7 @@ ENTRY(boot_entry)
 
     b   main
 
-/* to make the bootloader size 0x1FFF (see boot/arm/arch/boot.ld) */
+    /* to make the bootloader size 0x1FFF (see boot/arm/arch/boot.ld) */
     .section .tail,"ax"
 dummy:
     .byte   0xff

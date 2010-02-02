@@ -46,20 +46,12 @@ bootinfo_init(void)
 	bi->video.text_y = 16;
 
 	/*
-         * EWRAM - 4M
+         * Main ram - 4M
          */
         bi->ram[0].base = 0x2000000;
         bi->ram[0].size = 0x0400000;
         bi->ram[0].type = MT_USABLE;
         bi->nr_rams = 1;
-
-	/*
-         * ITCM - 32k (Kernel)
-         */
-        /*bi->ram[1].base = 0x00000000;
-        bi->ram[1].size = 0x00008000;
-        bi->ram[1].type = MT_USABLE;
-        bi->nr_rams++;*/
 }
 
 void

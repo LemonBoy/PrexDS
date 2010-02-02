@@ -30,7 +30,8 @@
 #include <sys/param.h>
 #include <boot.h>
 
-#include "desmume.h"
+/* Implemented in diag_desmume.S */
+void diag_desmume_puts(const char * s);
 
 /*
  * Print one chracter
@@ -48,7 +49,7 @@ debug_putc(int c)
 
     if(c == '\n' || i == 80) {
         buf[i] = '\0';
-        desmume_puts(buf);
+        diag_desmume_puts(buf);
         i = 0;
     } else {
         i += 1;
