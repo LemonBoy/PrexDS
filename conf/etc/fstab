@@ -5,8 +5,9 @@
 none		/		ramfs
 /dev/ram0	/boot		arfs
 none		/dev		devfs
-none		/mnt/fifo	fifofs
-/dev/fd0	/mnt/floppy	fatfs
+
+#none		/mnt/fifo	fifofs
+#/dev/fd0	/mnt/floppy	fatfs
 
 #/dev/mtd0	/bin		ffs
 #/dev/mtd1	/etc		ffs
