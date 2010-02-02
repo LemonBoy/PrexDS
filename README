@@ -1,7 +1,22 @@
-/!\ Warning /!\
-This is a draft port which doesn't even works on emulators nor hardware.
-
-Building instructions (with devkitARM r27) :
+###
+# Building instructions (tested with devkitARM r27) :
+###
 
 ./configure --target=arm-nds --cross-prefix=arm-eabi-
 make
+
+###
+# /!\ To run PrexDS on hardware /!\
+###
+
+If you want to test on a real DS, you have comment DIAG_DESMUME in the config
+file, then run the configure script and build.
+
+###
+# DS related files
+###
+
+/conf/arm/nds       : Configuration file
+/bsp/boot/arm/nds   : Bootloader
+/bsp/hal/arm/nds    : Hardware Abstaction Layer
+/bsp/drv/arm/nds    : Drivers
