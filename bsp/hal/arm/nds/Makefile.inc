@@ -9,8 +9,8 @@ SRCS:=		arm/arch/locore.S \
 		arm/nds/machdep.c
 
 ifeq ($(DEBUG),1)
-SRCS+=	arm/nds/diag/desmume.S \
-		arm/nds/diag/diag.c \
-		arm/nds/diag/screen.c \
-		arm/nds/diag/font.c
+SRCS+=	arm/nds/diag.c
+ifeq ($(CONFIG_DIAG_DESMUME),y)
+SRCS+=	arm/nds/diag_desmume.S
+endif
 endif
