@@ -28,8 +28,8 @@ makeoptions CFLAGS    += -DDEBUG_BOOTINFO
 
 memory LOADER_TEXT  0x02000000  # Automatically loaded here by the DS firmware
 memory BOOTIMG_BASE 0x02002000  # The Boot Image is concatenated with the Loader
-memory KERNEL_TEXT  0x02200000  # Kernel relocated by the Loader, TODO relocate it in itcm when it will work
-memory SYSPAGE_BASE 0x02100000  # System page (stacks), TODO relocate it in dtcm when it will work
+memory KERNEL_TEXT  0x02100000  # Kernel relocated by the Loader, TODO relocate in ITCM
+memory SYSPAGE_BASE 0x0b000000  # System page in DTCM (stacks)
 
 #
 # Tunable paramters
@@ -44,11 +44,7 @@ options     FS_THREADS=4    # Number of file system threads
 # Platform settings
 #
 options     ARM926E_S   # Processor core
-#options    MMU     # Memory management unit
-#options     CACHE       # Cache memory
-#options    FPU     # Floating point unit
-#options    ROMBOOT     # Boot from ROM
-options     BOOTDISK    # Disk for /boot directory
+options     CACHE       # Cache memory
 
 #
 # General setup
@@ -67,7 +63,6 @@ options    KD      # Kernel debugger
 # Diagnostic options
 #
 options     DIAG_DESMUME    # Diagnostic via desmume emulator
-#options     DIAG_SCREEN     # Diagnostic via DS screen
 
 #
 # File systems
