@@ -39,9 +39,15 @@
 #define DPRINTF(a)
 #endif
 
+#include "screen.h"
+#include "font.h"
+
+#define DIAG_CONSOLE_WIDTH  (256/FONT_WIDTH)
+#define DIAG_CONSOLE_HEIGHT (192/FONT_HEIGHT)
+
 struct lcd_softc {
-	device_t	dev;
-	uint16_t	*vram;
+	device_t       dev;
+	char           console[DIAG_CONSOLE_WIDTH][DIAG_CONSOLE_HEIGHT];
 };
 
 static int	lcd_init(struct driver *);
@@ -80,14 +86,6 @@ static struct wscons_video_ops wscons_lcd_ops = {
 	lcd_get_cursor,		/* get_cursor */
 };
 
-#include "screen.h"
-#include "font.h"
-
-#define DIAG_CONSOLE_WIDTH  (256/FONT_WIDTH)
-#define DIAG_CONSOLE_HEIGHT (192/FONT_HEIGHT)
-
-static char console[DIAG_CONSOLE_WIDTH][DIAG_CONSOLE_HEIGHT];
-
 static void
 lcd_cursor(void *aux, int row, int col)
 {
@@ -97,9 +95,11 @@ lcd_cursor(void *aux, int row, int col)
 static void
 lcd_putc(void *aux, int row, int col, int ch)
 {
-    ASSERT(row < DIAG_CONSOLE_WIDTH);
-    ASSERT(col < DIAG_CONSOLE_HEIGHT);
-    console[col][row] = (char) ch;
+    struct lcd_softc *sc = aux;
+
+    ASSERT(col < DIAG_CONSOLE_WIDTH);
+    ASSERT(row < DIAG_CONSOLE_HEIGHT);
+    sc->console[col][row] = (char) ch;
     font_print_char((char) ch, 3+col*FONT_WIDTH,2+row*FONT_HEIGHT);
     return;
 }
@@ -108,10 +108,12 @@ static void
 lcd_copyrows(void *aux, int srcrow, int dstrow, int nrows)
 {
     int i;
+    struct lcd_softc *sc = aux;
+
     ASSERT(nrows == 1); /* FIXME */
     for (i = 0; i < DIAG_CONSOLE_WIDTH; i++) {
-        console[i][dstrow] = console[i][srcrow];
-        lcd_putc(aux, dstrow, i, console[i][dstrow]);
+        sc->console[i][dstrow] = sc->console[i][srcrow];
+        lcd_putc(aux, dstrow, i, sc->console[i][dstrow]);
     }
 }
 
@@ -119,9 +121,11 @@ static void
 lcd_eraserows(void *aux, int row, int nrows)
 {
     int i;
+    struct lcd_softc *sc = aux;
+
     ASSERT(nrows == 1); /* FIXME */
     for (i = 0; i < DIAG_CONSOLE_WIDTH; i++) {
-        console[i][row] = ' ';
+        sc->console[i][row] = ' ';
         lcd_putc(aux, row, i, ' ');
     }
 }
@@ -151,8 +155,9 @@ lcd_init(struct driver *self)
 
     screen_init();
     for(x = 0; x < DIAG_CONSOLE_WIDTH;  x++ )
-    for(y = 0; y < DIAG_CONSOLE_HEIGHT; y++ )
-        console[x][y] = 0;
-
+    for(y = 0; y < DIAG_CONSOLE_HEIGHT; y++ ) {
+        sc->console[x][y] = ' ';
+        lcd_putc(sc, y, x, ' ');
+    }
     return 0;
 }
