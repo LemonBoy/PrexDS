@@ -1,0 +1,400 @@
+#! /bin/sh
+#
+# Prex configure script
+#
+# Required host commands: echo, pwd, expr, uname, tr, cat, cp
+#
+
+usage()
+{
+	if [ -n "$*" ]; then
+		echo "configure: $*"
+	fi
+	echo
+	echo "Usage: configure [options]"
+	echo "Options:"
+	echo "	--help			print this message"
+	echo "	--target=TARGET		use TARGET for target system"
+	echo "	--profile=PROFILE	use PROFILE for target profile"
+	echo "	--cross-prefix=PREFIX	use PREFIX for compile tools"
+	echo "	--cc=CC			use CC as C compiler"
+	echo "	--no-debug		disable all debug features"
+
+	exit 1
+}
+
+quit()
+{
+	echo "Error: $1"
+	exit 1
+}
+
+setdefaults()
+{
+	target=""
+	profile=""
+	prefix=""
+	srcdir=`pwd`
+
+	# Use GNU tools as default toolchain
+	cc="gcc"
+	cpp="cpp"
+	as="as"
+	ld="ld"
+	ar="ar"
+	objcopy="objcopy"
+	objdump="objdump"
+	strip="strip"
+}
+
+checkpath()
+{
+	# Input files
+	CONFIG_IN=$srcdir/conf/$arch/$platform$profile
+	SECURITY_IN=$srcdir/conf/etc/security
+
+	# Output files
+	CONFIG_MK=$srcdir/conf/config.mk
+	CONFIG_H=$srcdir/conf/config.h
+	CONFIG_LD=$srcdir/conf/config.ld
+	DRVTAB_H=$srcdir/conf/drvtab.h
+	DRVTAB_TMP=$srcdir/conf/drvtab.tmp
+	CAPTAB_H=$srcdir/conf/captab.h
+
+	if [ ! -f $CONFIG_IN ]; then
+		quit "Can not find $CONFIG_IN for '$target' target"
+	fi
+}
+
+parseargs()
+{
+	while [ -n "$1" ]; do
+		case $1 in
+		--*=*)
+			option=`expr "x$1" : 'x\([^=]*\)='`
+			optarg=`expr "x$1" : 'x[^=]*=\(.*\)'`
+			;;
+		--*)
+			option=$1
+			;;
+		*)
+			usage "unrecognized option $1"
+			;;
+		esac
+
+		case $option in
+		--help)
+			usage
+			;;
+		--target)
+			target=$optarg
+			;;
+		--profile)
+			profile="-$optarg"
+			;;
+		--cross-prefix)
+			prefix=$optarg
+			;;
+		--cc)
+			cc=$optarg
+			;;
+		--no-debug)
+			nodebug=1
+			;;
+		*)
+			usage "Unrecognized option $1"
+			;;
+		esac
+		shift
+	done
+}
+
+gettarget()
+{
+	if [ -z "$target" ]; then
+		echo "Warning: '--target' option was not specified"
+		echo "The target system was set to 'x86-pc'"
+		target="x86-pc"
+	fi
+
+	arch=`expr "x$target" : 'x\([^=]*\)-'`
+	platform=`expr "x$target" : 'x[^=]*-\(.*\)'`
+
+	case "$arch" in
+	x86|arm|ppc|sh|mips)
+		;;
+	*)
+		quit "Unkown target architecture: $arch"
+		;;
+	esac
+}
+
+gethost()
+{
+	# 'uname' command may be unavailable under Windows.
+	# So, we check MACHTYPE variable for cygwin/mingw at first.
+	case "$MACHTYPE" in
+	*-cygwin)
+		hostname="CYGWIN"
+		;;
+	*-msys)
+		hostname="MINGW"
+		;;
+	*)
+		hostname=`uname -s`
+		;;
+	esac
+}
+
+# Set the gcc option only when it's supported.
+setgccoption()
+{
+	echo "checking $1"
+	if ${prefix}${cc} $1 -S -xc /dev/null -o /dev/null > /dev/null 2>&1; then
+		echo "GCCFLAGS+= $1" >> $CONFIG_MK
+	fi
+}
+
+checktools()
+{
+	#
+	# Check compiler version
+	#
+	case "$cc" in
+	*gcc*)
+		setgccoption "-fno-stack-protector"
+		;;
+	esac
+}
+
+settools()
+{
+	#
+	# Set host specific tool settings
+	#
+	case "$hostname" in
+	*BSD)
+		;;
+	SunOS)
+		# Solaris
+		as="gas"
+		ld="gld"
+		ar="gar"
+		strip="gstrip"
+		objcopy="gobjcopy"
+		objdump="gobjdump"
+		;;
+	CYGWIN*|MINGW*)
+		case "$arch" in
+		x86)
+			prefix="i386-elf-"
+			;;
+		ppc)
+			prefix="powerpc-elf-"
+			;;
+		*)
+			prefix="$arch-elf-"
+			;;
+		esac
+		;;
+	esac
+
+	#
+	# Set tools
+	#
+	case "$cc" in
+	*gcc*)
+		cc_type="_GNUC_"
+		;;
+	pcc)
+		cc_type="_PCC_"
+		;;
+	suncc)
+		cc_type="_SUNPRO_C_"
+		cc="suncc"
+		;;
+	*)
+		quit "Unkown compiler: $cc"
+		;;
+	esac
+}
+
+options()
+{
+	param=`expr "x$1" : 'x\([^= ]*\)'`
+	value=`expr "x$1" : 'x[^=]*=\([A-Za-z0-9\.]*\)'`
+
+	if [ "x$value" = x ] ; then
+		echo "CONFIG_${param}=y"
+		echo "CONFIG_${param}=y" >> $CONFIG_MK
+		echo "#define CONFIG_${param} y" >> $CONFIG_H
+	else
+		echo "CONFIG_${param}=${value}"
+		echo "CONFIG_${param}=${value}" >> $CONFIG_MK
+		echo "#define CONFIG_${param} ${value}" >> $CONFIG_H
+	fi
+}
+
+device()
+{
+	param=`echo $1 | tr '[a-z]' '[A-Z]'`
+
+	echo "CONFIG_${param}=y"
+	echo "CONFIG_${param}=y" >> $CONFIG_MK
+	echo "#define CONFIG_${param} y" >> $CONFIG_H
+
+	echo "extern struct driver $1_driver;" >> $DRVTAB_H
+	echo "	&$1_driver," >> $DRVTAB_TMP
+}
+
+capability()
+{
+	{
+		echo "{"
+		echo "	\"$1\","
+		shift 1
+		while [ "$1" != "" ] ; do
+			if [ "$2" != "" ] ; then
+				echo "	$1 |"
+			else
+				echo "	$1"
+			fi
+			shift 1
+		done
+		echo "},"
+	} >> $CAPTAB_H
+}
+
+memory()
+{
+	echo "CONFIG_$1=$2"
+	echo "CONFIG_$1=$2" >> $CONFIG_MK
+	echo "CONFIG_$1 = $2 ;" >> $CONFIG_LD
+	echo "#define CONFIG_$1 $2" >> $CONFIG_H
+}
+
+command()
+{
+	param=`echo $1 | tr '[a-z]' '[A-Z]'`
+
+	echo "CONFIG_CMD_${param}=y"
+	echo "CONFIG_CMD_${param}=y" >> $CONFIG_MK
+	echo "#define CONFIG_CMD_${param} y" >> $CONFIG_H
+}
+
+parseconfig()
+{
+	while read line; do
+		read cmd rest <<-END_OF_COMMAND
+			$line
+		END_OF_COMMAND
+
+		case "$cmd" in
+		options)
+			options $rest
+			;;
+		device)
+			device $rest
+			;;
+		capability)
+			capability $rest
+			;;
+		makeoptions)
+			echo "$rest"
+			echo "$rest" >> $CONFIG_MK
+			;;
+		memory)
+			memory $rest
+			;;
+		command)
+			command $rest
+			;;
+		esac
+	done < $1
+}
+
+main()
+{
+	[ -d conf ] ||
+		quit "configure must be run from the top source level"
+
+	#
+	# Process input arguments
+	#
+	setdefaults
+	parseargs "$@"
+	gettarget
+	checkpath
+	gethost
+	settools
+
+	echo "#" > $CONFIG_MK
+	echo "# Automatically generated file. Don't edit" >> $CONFIG_MK
+	echo "#" >> $CONFIG_MK
+	echo "_CONFIG_MK_=1" >> $CONFIG_MK
+
+	echo "/*" > $CONFIG_H
+	echo " * Automatically generated file. Don't edit" >> $CONFIG_H
+	echo " */" >> $CONFIG_H
+
+	cp $CONFIG_H $CONFIG_LD
+	cp $CONFIG_H $DRVTAB_H
+	cp $CONFIG_H $CAPTAB_H
+
+	echo "" > $DRVTAB_TMP
+	echo "struct driver *driver_table[] = {" >> $DRVTAB_TMP
+
+
+	echo "" >> $CAPTAB_H
+	echo "const struct cap_map cap_table[] = {" >> $CAPTAB_H
+
+	#
+	# Setup build settings
+	#
+	{
+		echo "ARCH=${arch}"
+		echo "PLATFORM=${platform}"
+		echo "PROFILE=${platform}${profile}"
+		if [ -n "${nodebug}" ]; then
+			echo "NDEBUG=1"
+		fi
+		echo "${cc_type}=1"
+		echo "CC=${prefix}${cc}"
+		echo "CPP=${prefix}${cpp}"
+		echo "AS=${prefix}${as}"
+		echo "LD=${prefix}${ld}"
+		echo "AR=${prefix}${ar}"
+		echo "OBJCOPY=${prefix}${objcopy}"
+		echo "OBJDUMP=${prefix}${objdump}"
+		echo "STRIP=${prefix}${strip}"
+
+	} >> $CONFIG_MK
+
+	#
+	# Adjust tool options
+	#
+	checktools
+
+	#
+	# Generate configuration parameters
+	#
+	echo "checking configuration files..."
+	echo "#define CONFIG_MACHINE ${target}" >> $CONFIG_H
+	echo "#define CONFIG_PROFILE ${profile}" >> $CONFIG_H
+
+	parseconfig $CONFIG_IN
+	parseconfig $SECURITY_IN
+
+	cat $DRVTAB_TMP >> $DRVTAB_H
+	echo "};" >> $DRVTAB_H
+	rm -f $DRVTAB_TMP
+
+	echo "{	NULL, 0 }" >> $CAPTAB_H
+	echo "};" >> $CAPTAB_H
+
+	echo
+	echo "Prex is now hopefully configured for your setup."
+	echo "Now you must run a make."
+}
+
+main "$@"
