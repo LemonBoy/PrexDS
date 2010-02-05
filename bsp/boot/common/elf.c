@@ -213,18 +213,19 @@ relocate_section_rel(Elf32_Sym *sym_table, Elf32_Rel *rel,
 	for (i = 0; i < nr_reloc; i++) {
 		sym = &sym_table[ELF32_R_SYM(rel->r_info)];
 		ELFDBG(("%s\n", strtab + sym->st_name));
-		if (sym->st_shndx != STN_UNDEF) {
-			sym_val = (Elf32_Addr)sect_addr[sym->st_shndx]
-				+ sym->st_value;
-			if (relocate_rel(rel, sym_val, target_sect) != 0)
-				return -1;
-		} else if (ELF32_ST_BIND(sym->st_info) != STB_WEAK) {
-			DPRINTF(("Undefined symbol for rel[%x] sym=%lx\n",
-				 i, (long)sym));
-			return -1;
-		} else {
-			DPRINTF(("Undefined weak symbol for rel[%x]\n", i));
-		}
+		/* ELF32_R_TYPE(rel->r_info) == R_ARM_V4BX added to support devkitARM */
+		if (sym->st_shndx != STN_UNDEF || ELF32_R_TYPE(rel->r_info) == R_ARM_V4BX) {
+                        sym_val = (Elf32_Addr)sect_addr[sym->st_shndx]
+                                + sym->st_value;
+                        if (relocate_rel(rel, sym_val, target_sect) != 0)
+                                return -1;
+                } else if (ELF32_ST_BIND(sym->st_info) != STB_WEAK) {
+                    DPRINTF(("Undefined symbol for rel[%x] sym=%lx\n",
+                            i, (long)sym));
+                    return -1;
+                } else {
+                        DPRINTF(("Undefined weak symbol for rel[%x]\n", i));
+                }
 		rel++;
 	}
 	return 0;

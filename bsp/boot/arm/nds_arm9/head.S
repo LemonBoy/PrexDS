@@ -1,5 +1,5 @@
-/*
- * Copyright (c) 2007, Kohsuke Ohtani
+/*-
+ * Copyright (c) 2008, Kohsuke Ohtani
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,18 +27,34 @@
  * SUCH DAMAGE.
  */
 
-#ifndef _ARM_ELF_H
-#define _ARM_ELF_H
-
 /*
- * Relocation type
+ * head.S - startup code.
  */
-#define	R_ARM_NONE	0
-#define	R_ARM_PC24	1
-#define	R_ARM_ABS32	2
-#define	R_ARM_PLT32	27
-#define	R_ARM_CALL	28
-#define R_ARM_JUMP24	29
-#define R_ARM_V4BX      40
 
-#endif /* !_ARM_ELF_H */
+#include <conf/config.h>
+#include <machine/memory.h>
+#include <machine/syspage.h>
+
+    .text
+    .align 2
+
+boot_entry:
+
+    /* Disable interrupts (IME = 0) */
+    mov r0, #0x04000000
+    str r0, [r0, #0x208]
+
+    bl cp15_setup
+
+    mov r0, #0xd3       /* Enter SVC mode, Disable IRQ,FIQ */
+    msr cpsr_c, r0
+    ldr sp, =BOOTSTKTOP
+
+    b   main
+
+    /* to make the bootloader size 0x1FFF (see boot/arm/arch/boot.ld) */
+    .section .tail,"ax"
+dummy:
+    .byte   0xff
+
+.end

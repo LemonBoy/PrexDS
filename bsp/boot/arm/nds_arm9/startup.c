@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2006, Kohsuke Ohtani
+ * Copyright (c) 2008-2009, Kohsuke Ohtani
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,65 +28,34 @@
  */
 
 #include <sys/param.h>
-#include <sys/elf.h>
+#include <sys/bootinfo.h>
 #include <boot.h>
 
-int
-relocate_rel(Elf32_Rel *rel, Elf32_Addr sym_val, char *target_sect)
+/*
+ * Setup boot information.
+ */
+static void
+bootinfo_init(void)
 {
-	Elf32_Addr *where, tmp;
-	Elf32_Sword addend;
+	struct bootinfo *bi = bootinfo;
 
-	where = (Elf32_Addr *)(target_sect + rel->r_offset);
+	/*
+	 * Screen size
+	 */
+	bi->video.text_x = 42;
+	bi->video.text_y = 16;
 
-	switch (ELF32_R_TYPE(rel->r_info)) {
-	case R_ARM_NONE:
-		break;
-	case R_ARM_ABS32:
-		*where += (vaddr_t)ptokv(sym_val);
-		ELFDBG(("R_ARM_ABS32: %lx -> %lx\n",
-			(long)where, (long)*where));
-		break;
-	case R_ARM_PC24:
-	case R_ARM_PLT32:
-	case R_ARM_CALL:
-	case R_ARM_JUMP24:
-		addend = (Elf32_Sword)(*where & 0x00ffffff);
-		if (addend & 0x00800000)
-			addend |= 0xff000000;
-		tmp = sym_val - (Elf32_Addr)where + (addend << 2);
-		tmp >>= 2;
-		*where = (*where & 0xff000000) | (tmp & 0x00ffffff);
-		ELFDBG(("R_ARM_PC24: %lx -> %lx\n",
-			(long)where, (long)*where));
-		break;
-        /*
-         * Added to support devkitARM
-         * http://lists.openwall.net/linux-kernel/2009/03/29/72
+	/*
+         * Main ram - 4M
          */
-        case R_ARM_V4BX:
-                /* Preserve Rm and the condition code. Alter
-                 * other bits to re-code instruction as
-                 * MOV PC,Rm.
-                 */
-                *where &= 0xf000000f;
-                *where |= 0x01a0f000;
-                ELFDBG(("R_ARM_V4BX: %lx -> %lx\n",
-                        (long)where, (long)*where));
-                break;
-	default:
-		ELFDBG(("Unkown relocation type=%d\n",
-			ELF32_R_TYPE(rel->r_info)));
-		panic("relocation fail");
-		return -1;
-	}
-	return 0;
+        bi->ram[0].base = 0x2000000;
+        bi->ram[0].size = 0x0400000;
+        bi->ram[0].type = MT_USABLE;
+        bi->nr_rams = 1;
 }
 
-int
-relocate_rela(Elf32_Rela *rela, Elf32_Addr sym_val, char *target_sec)
+void
+startup(void)
 {
-
-	panic("invalid relocation type");
-	return -1;
+	bootinfo_init();
 }

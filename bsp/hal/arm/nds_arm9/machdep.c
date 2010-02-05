@@ -1,5 +1,5 @@
-/*
- * Copyright (c) 2007, Kohsuke Ohtani
+/*-
+ * Copyright (c) 2008-2009, Kohsuke Ohtani
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,18 +27,91 @@
  * SUCH DAMAGE.
  */
 
-#ifndef _ARM_ELF_H
-#define _ARM_ELF_H
+/*
+ * machdep.c - machine-dependent routines for ARM Integrator-CP
+ */
+
+#include <machine/syspage.h>
+#include <sys/power.h>
+#include <sys/bootinfo.h>
+#include <kernel.h>
+#include <page.h>
+#include <mmu.h>
+#include <cpu.h>
+#include <cpufunc.h>
+#include <locore.h>
 
 /*
- * Relocation type
+ * Idle
  */
-#define	R_ARM_NONE	0
-#define	R_ARM_PC24	1
-#define	R_ARM_ABS32	2
-#define	R_ARM_PLT32	27
-#define	R_ARM_CALL	28
-#define R_ARM_JUMP24	29
-#define R_ARM_V4BX      40
+void
+machine_idle(void)
+{
+	cpu_idle();
+}
 
-#endif /* !_ARM_ELF_H */
+/*
+ * Reset system.
+ */
+static void
+machine_reset(void)
+{
+
+	for (;;) ;
+	/* NOTREACHED */
+}
+
+/*
+ * Set system power
+ */
+void
+machine_powerdown(int state)
+{
+
+	splhigh();
+
+	DPRINTF(("Power down machine\n"));
+
+	switch (state) {
+	case PWR_OFF:
+		for (;;)
+			cpu_idle();
+		/* NOTREACHED */
+		break;
+	case PWR_REBOOT:
+		machine_reset();
+		/* NOTREACHED */
+		break;
+	}
+}
+
+/*
+ * Return pointer to the boot information.
+ */
+void
+machine_bootinfo(struct bootinfo **bip)
+{
+
+	*bip = (struct bootinfo *)BOOTINFO;
+}
+
+void
+machine_abort(void)
+{
+
+	for (;;)
+		cpu_idle();
+}
+
+/*
+ * Machine-dependent startup code
+ */
+void
+machine_startup(void)
+{
+	/*
+	 * Initialize CPU and basic hardware.
+	 */
+	cpu_init();
+	vector_copy((vaddr_t)0x01000000);
+}

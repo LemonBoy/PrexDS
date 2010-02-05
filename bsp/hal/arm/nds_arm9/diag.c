@@ -1,5 +1,5 @@
-/*
- * Copyright (c) 2007, Kohsuke Ohtani
+/*-
+ * Copyright (c) 2008, Kohsuke Ohtani
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,18 +27,21 @@
  * SUCH DAMAGE.
  */
 
-#ifndef _ARM_ELF_H
-#define _ARM_ELF_H
+#include <kernel.h>
 
-/*
- * Relocation type
- */
-#define	R_ARM_NONE	0
-#define	R_ARM_PC24	1
-#define	R_ARM_ABS32	2
-#define	R_ARM_PLT32	27
-#define	R_ARM_CALL	28
-#define R_ARM_JUMP24	29
-#define R_ARM_V4BX      40
+/* defined in diag_desmume.S */
+void diag_desmume_puts(char *buf);
 
-#endif /* !_ARM_ELF_H */
+void
+diag_init(void)
+{
+
+}
+
+void
+diag_puts(char *buf)
+{
+#ifdef CONFIG_DIAG_DESMUME
+    diag_desmume_puts(buf);
+#endif
+}

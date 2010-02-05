@@ -1,5 +1,5 @@
-/*
- * Copyright (c) 2007, Kohsuke Ohtani
+/*-
+ * Copyright (c) 2008-2009, Kohsuke Ohtani
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,18 +27,42 @@
  * SUCH DAMAGE.
  */
 
-#ifndef _ARM_ELF_H
-#define _ARM_ELF_H
+#include <sys/param.h>
+#include <boot.h>
+
+/* Implemented in diag_desmume.S */
+void diag_desmume_puts(const char * s);
 
 /*
- * Relocation type
+ * Print one chracter
+ * (buffer sent when it's full or when printing a \n)
  */
-#define	R_ARM_NONE	0
-#define	R_ARM_PC24	1
-#define	R_ARM_ABS32	2
-#define	R_ARM_PLT32	27
-#define	R_ARM_CALL	28
-#define R_ARM_JUMP24	29
-#define R_ARM_V4BX      40
+void
+debug_putc(int c)
+{
+    #if defined(DEBUG) && defined(CONFIG_DIAG_DESMUME)
 
-#endif /* !_ARM_ELF_H */
+    static char buf[81];
+    static int i = 0;
+
+    buf[i] = c;
+
+    if(c == '\n' || i == 80) {
+        buf[i] = '\0';
+        diag_desmume_puts(buf);
+        i = 0;
+    } else {
+        i += 1;
+    }
+
+    #endif
+}
+
+/*
+ * Initialize debug port.
+ */
+void
+debug_init(void)
+{
+
+}
