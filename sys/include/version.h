@@ -1,4 +1,0 @@
-
-#define MAJORVERSION	0
-#define MINORVERSION	9
-#define PATCHLEVEL	0

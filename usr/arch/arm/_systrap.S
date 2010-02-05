@@ -1,1 +1,0 @@
-/* trap code is described in systrap.h */
