@@ -1,5 +1,5 @@
-#include "font.h"
-#include "screen.h"
+/*#include "font.h"
+#include "screen.h"*/
 
 static const char font[] = {
 /*      */ 0x00,
@@ -1238,9 +1238,9 @@ static const char font[] = {
 /*      */ 0x00
 };
 
-void font_print_char(char c, unsigned char x, unsigned char y)
+void font_print_char(int screen, char c, unsigned char x, unsigned char y)
 {
-    unsigned char dx, dy, id;
+    /*unsigned char dx, dy, id;
 
     if (c >= 0x20 && c <= 0x7F) {
         id = c - 0x20;
@@ -1249,12 +1249,12 @@ void font_print_char(char c, unsigned char x, unsigned char y)
         id = 0;
     }
 
-    for(dy = 0; dy < FONT_HEIGHT; dy++)
-    for(dx = 0; dx < FONT_WIDTH;  dx++){
-        if((font[id*FONT_HEIGHT + dy] >> dx) & 1) {
+    for(dy = 0; dy < FONT_H; dy++)
+    for(dx = 0; dx < FONT_W;  dx++){
+        if((font[id*FONT_H + dy] >> dx) & 1) {
             screen_plot(x+dx, y+dy, 0xffffff);
         } else{
             screen_plot(x+dx, y+dy, 0x000000);
         }
-    }
+    }*/
 }

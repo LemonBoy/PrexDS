@@ -36,9 +36,10 @@ ifeq ($(CONFIG_CMD_DEBUG),y)
 FILES+= 	$(SRCDIR)/usr/sbin/debug/debug
 endif
 
+FILES+=		$(SRCDIR)/usr/sample/hello/hello
+
 ifneq ($(_QUICK_),1)
 ifneq ($(CONFIG_TINY),y)
-FILES+=		$(SRCDIR)/usr/sample/hello/hello
 FILES+=		$(SRCDIR)/usr/sample/tetris/tetris
 endif
 endif

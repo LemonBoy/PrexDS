@@ -10,9 +10,9 @@ makeoptions ACPPFLAGS += -O0 -g
 makeoptions CFLAGS    += -O0 -g -DDEBUG 
 #makeoptions CFLAGS    += -DDEBUG_ELF 
 makeoptions CFLAGS    += -DDEBUG_BOOTINFO 
-#makeoptions CFLAGS    += -DDEBUG_EXEC
-#makeoptions CFLAGS    += -DDEBUG_VFS 
-#makeoptions CFLAGS    += -DEBUG_ARFS 
+makeoptions CFLAGS    += -DDEBUG_EXEC
+makeoptions CFLAGS    += -DDEBUG_VFS 
+makeoptions CFLAGS    += -DEBUG_ARFS 
 
 
 
@@ -50,13 +50,13 @@ options     TINY        # Optimize for size
 #
 # Kernel hacking
 #
-options    KD      # Kernel debugger
+options     KD      # Kernel debugger
 #options    AUDIT       # Security auditing
 
 #
 # Diagnostic options
 #
-#options     DIAG_DESMUME    # Diagnostic via desmume emulator
+options     DIAG_DESMUME    # Diagnostic via desmume emulator
 
 #
 # File systems
@@ -64,7 +64,7 @@ options    KD      # Kernel debugger
 #options     FIFOFS      # FIFO & Pipe
 options     DEVFS       # Device file system
 options     RAMFS       # RAM file system
-options     ARFS        # Archive file system
+options      ARFS        # Archive file system
 #options     FATFS       # FAT file system
 
 #
@@ -78,12 +78,15 @@ options     ARFS        # Archive file system
 # Device drivers (initialization order)
 #
 
+device      ipc           # Arm7/9 bridge
 device      cons          # System console
 device      wscons        # Workstation console
 device      lcd           # LCD video (P:wscons)
 device      null          # NULL device
 device      zero          # Zero device
 device      ramdisk       # RAM disk
+device      input
+device      dldi
 
 #
 # Command box
@@ -114,6 +117,8 @@ command     sync
 #command    test
 command     touch
 command     uname
+command     fileio
+command     hello
 
 #
 # Adminisrative tools

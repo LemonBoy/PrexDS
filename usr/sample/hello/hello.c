@@ -29,10 +29,17 @@
 
 #include <stdio.h>
 #include <sys/prex.h>
+#include <sys/fcntl.h>
+#include <sys/ioctl.h>
 
 int
 main(int argc, char *argv[])
 {
-	printf("Hello, world!\n");
+	printf("Boot task\n");
+	printf("Boot task\n");
+	printf("Boot task\n");
+	printf("Boot task\n");
+	printf("Boot task\n");
+
 	return 0;
 }

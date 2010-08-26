@@ -4,4 +4,6 @@ export HOME PATH
 uname -msr
 mem
 date
+ls /dev
+hello
 exec sh

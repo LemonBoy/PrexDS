@@ -31,6 +31,9 @@
 #include <sys/bootinfo.h>
 #include <boot.h>
 
+#define EXMEMCNT			(*(volatile uint16_t *)0x04000204)
+#define OPERA_IO_CR		 	(*(volatile uint16_t *)0x08240000)
+
 /*
  * Setup boot information.
  */
@@ -44,14 +47,22 @@ bootinfo_init(void)
 	 */
 	bi->video.text_x = 42;
 	bi->video.text_y = 16;
+	
+	bi->nr_rams = 0;
+	
+	/*
+	 * Card bus (GBA/NDS) set to ARM9
+	 */
+	
+	EXMEMCNT &= ~((1 << 7) | (1 << 11) | (1 << 15));
 
 	/*
-         * Main ram - 4M
-         */
-        bi->ram[0].base = 0x2000000;
-        bi->ram[0].size = 0x0400000;
-        bi->ram[0].type = MT_USABLE;
-        bi->nr_rams = 1;
+     * Main ram - 4M
+     */
+    bi->ram[0].base = 0x2000000;
+    bi->ram[0].size = 0x0400000;
+    bi->ram[0].type = MT_USABLE;
+	bi->nr_rams++;
 }
 
 void

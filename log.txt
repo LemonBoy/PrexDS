@@ -1,0 +1,654 @@
+slot1Change to: 2
+addonsChangePak
+Microphone init failed.
+DeSmuME 0.9.6 svnr3751
+SoftRast Initialized
+File doesn't appear to have a secure area.
+DEBUG_reset: 08166180
+DeSmuME .dsv save file not found. Trying to load an old raw .sav file.
+Missing save file /home/sonia/.config/desmume/prex.dsv
+
+ROM crc: 85A5BC70
+ROM serial: Homebrew
+ROM internal name: .
+
+Prex Boot Loaderloading: hdr=02002008 module=0b003084 name=prexloading: hdr=0200a29c module=0b0030b4 name=drv.koloading: hdr=02011268 module=0b0030e4 name=bootloading: hdr=02013f58 module=0b003114 name=procloading: hdr=02016f90 module=0b003144 name=execloading: hdr=0201c584 module=0b003174 name=fsbootdisk base=020288b0 size=00027c10[Boot information]nr_rams=3ram[0]:  base=02000000 size=00400000 type=USABLEram[1]:  base=020288b0 size=00027c10 type=BOOTDISKram[2]:  base=02100000 size=00023800 type=RESERVEDbootdisk: base=020288b0 size=00027c10entry    phys     size     text     data     textsz   datasz   bsssz    module-------- -------- -------- -------- -------- -------- -------- -------- ------02100074 02100000 00009400 02100000 021080d8 000080d6 0000000c 00001028 prex02109434 02109400 00004c00 02109400 0210da28 00004628 00000200 000003bc drv.ko0210e034 0210e000 00002000 0210e000 0210faa4 00001aa4 00000000 00000470 boot02110034 02110000 00002400 02110000 02111b98 00001b98 00000004 000005dc proc02112434 02112400 00004400 02112400 02115e30 00003a30 00000044 000008ec exec02116834 02116800 0000d000 02116800 0211e728 00007f28 00000110 00004bf4 fsEntering kernel (at 0x02100074) ...Prex version 0.9.0 for arm-nds_arm9 (Aug 25 2010)
+Copyright (c) 2005-2009 Kohsuke Ohtani
+Memory size=4031472
+Time slice is 50 msec
+IRQ3 attached priority=10
+Clock rate: 200 ticks/sec
+Entering driver module (at 0x2109434)
+Prex driver module built: Aug 25 2010
+Calibrating delay loop... ok count=25741
+Probing devices...
+Initializing ipc
+Started ipc driver
+Registers set
+IRQ18 attached priority=11
+Attacched IRQ handler
+Initializing cons
+Initializing wscons
+Initializing lcd
+Initializing null
+Initializing zero
+Initializing ramdisk
+RAM disk at 0x020288b0 (159K bytes)
+Initializing r4
+R4 driver
+Owned nds slot
+
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 
+0 0 Driver initialized
+Loading task:'boot'
+Loading task:'proc'
+Loading task:'exec'
+Loading task:'fs'
+Starting bootstrap server
+Starting process server
+Starting exec server
+exec: set capability:00000879 to /boot/exec
+Initialize 'elf' loader
+Initialize 'script' loader
+Starting file system server
+VFS: number of fs threads: 4
+VFS: initializing ramfs
+VFS: initializing devfs
+VFS: initializing arfs
+fs_register
+fs_register
+exec: set capability:00000076 to /boot/proc
+exec: set capability:00000863 to /boot/fs
+exec: set capability:00000a40 to /boot/boot
+fs_register
+boot: mounting file systems
+VFS: mounting ramfs at /
+sys_mkdir: path=/bin mode=0
+sys_mkdir: path=/boot mode=0
+sys_mkdir: path=/dev mode=0
+sys_mkdir: path=/etc mode=0
+sys_mkdir: path=/mnt mode=0
+sys_mkdir: path=/private mode=0
+sys_mkdir: path=/tmp mode=0
+VFS: mounting arfs at /boot
+sec_file_permission: known directory path=/boot/fstab read=800 write=ffffffff execute=0
+sys_open: path=/boot/fstab flags=0 mode=1b6
+sys_fstat: fp=200d31c
+sys_read: fp=200d31c buf=200d5bc size=512
+sys_mkdir: path=/dev mode=0
+VFS: task=2001714 code=212 error=17
+VFS: mounting devfs at /dev
+sys_mkdir: path=/mnt/fifo mode=0
+VFS: mounting fifofs at /mnt/fifo
+VFS: mount failed!
+VFS: task=2001714 code=200 error=19
+sys_mkdir: path=/mnt/floppy mode=0
+VFS: mounting fatfs at /mnt/floppy
+VFS: mount failed!
+VFS: task=2001714 code=200 error=19
+sys_read: fp=200d31c buf=200d5bc size=512
+sys_close: fp=200d31c count=1
+sec_file_permission: known directory path=/boot/rc read=800 write=ffffffff execute=0
+sys_open: path=/boot/rc flags=0 mode=210
+sys_fstat: fp=200d32c
+sec_file_permission: known directory path=/etc/rc read=0 write=800 execute=-1
+sys_open: path=/etc/rc flags=601 mode=8140
+sys_read: fp=200d32c buf=210faac size=512
+sys_write: fp=200d03c buf=210faac size=79
+sys_read: fp=200d32c buf=210faac size=512
+sys_close: fp=200d32c count=1
+sys_close: fp=200d03c count=1
+sec_file_permission: known directory path=/boot/fstab read=800 write=ffffffff execute=0
+sys_open: path=/boot/fstab flags=0 mode=1c
+sys_fstat: fp=200d31c
+sec_file_permission: known directory path=/etc/fstab read=0 write=800 execute=-1
+sys_open: path=/etc/fstab flags=601 mode=8140
+sys_read: fp=200d31c buf=210faac size=512
+sys_write: fp=200d03c buf=210faac size=252
+sys_read: fp=200d31c buf=210faac size=512
+sys_close: fp=200d31c count=1
+sys_close: fp=200d03c count=1
+boot: execute init
+exec_execve: path=/boot/init task=2001714
+sys_access: path=/boot/init mode=1
+exec: read header for /boot/init
+sec_file_permission: known directory path=/boot/init read=800 write=ffffffff execute=0
+sys_open: path=/boot/init flags=0 mode=0
+sys_fstat: fp=200deec
+sys_read: fp=200deec buf=2115e7c size=512
+sys_close: fp=200deec count=1
+exec: ELF magic  E L F
+exec: loader=elf
+sys_access: path=/boot/init mode=1
+exec: set capability:00000004 to /boot/init
+exec: argc=1 envc=2
+exec: xarg1=(null) xarg2=(null)
+exec: load file image
+sys_access: path=/boot/init mode=1
+sec_file_permission: known directory path=/boot/init read=800 write=ffffffff execute=0
+sys_open: path=/boot/init flags=0 mode=220
+exec: load_reloc
+sys_seek: fp=200d38c off=5332 type=0
+sys_read: fp=200d38c buf=200fe6c size=400
+sys_seek: fp=200d38c off=52 type=0
+sys_read: fp=200d38c buf=2010034 size=5028
+sys_seek: fp=200d38c off=7964 type=0
+sys_read: fp=200d38c buf=20119ec size=1552
+sys_seek: fp=200d38c off=5080 type=0
+sys_read: fp=200d38c buf=20113d8 size=138
+sys_seek: fp=200d38c off=5732 type=0
+sys_read: fp=200d38c buf=201228c size=1392
+exec: entry=2010034
+exec: load_reloc ret=0
+sys_close: fp=200d38c count=1
+exec done
+init: booting
+VFS: task=200da34 code=204 error=9
+VFS: task=200da34 code=204 error=9
+VFS: task=200da34 code=204 error=9
+fs_fork
+fs_fork-complete
+sys_open: path=/dev/console flags=2 mode=1c
+init: running boot script
+exec_execve: path=/boot/cmdbox task=2001714
+sys_access: path=/boot/cmdbox mode=1
+exec: read header for /boot/cmdbox
+sec_file_permission: known directory path=/boot/cmdbox read=800 write=ffffffff execute=0
+sys_open: path=/boot/cmdbox flags=0 mode=0
+sys_fstat: fp=200d38c
+sys_read: fp=200d38c buf=2115e7c size=512
+sys_close: fp=200d38c count=1
+exec: ELF magic  E L F
+exec: loader=elf
+sys_access: path=/boot/cmdbox mode=1
+exec: set capability:00000005 to /boot/cmdbox
+exec: argc=15 envc=2
+exec: xarg1=(null) xarg2=(null)
+exec: load file image
+sys_access: path=/boot/cmdbox mode=1
+sec_file_permission: known directory path=/boot/cmdbox read=800 write=ffffffff execute=0
+sys_open: path=/boot/cmdbox flags=0 mode=220
+exec: load_reloc
+sys_seek: fp=200d38c off=37868 type=0
+sys_read: fp=200d38c buf=2011e1c size=480
+sys_seek: fp=200d38c off=52 type=0
+sys_read: fp=200d38c buf=2013c34 size=32776
+sys_seek: fp=200d38c off=44684 type=0
+sys_read: fp=200d38c buf=201dd8c size=8816
+sys_seek: fp=200d38c off=32828 type=0
+sys_read: fp=200d38c buf=201bc3c size=4865
+sys_seek: fp=200d38c off=53500 type=0
+sys_read: fp=200d38c buf=201216c size=1672
+sys_seek: fp=200d38c off=37696 type=0
+sys_read: fp=200d38c buf=201cf40 size=52
+sys_seek: fp=200d38c off=55172 type=0
+sys_read: fp=200d38c buf=201214c size=8
+sys_seek: fp=200d38c off=38348 type=0
+sys_read: fp=200d38c buf=202001c size=4064
+exec: entry=2013c34
+exec: load_reloc ret=0
+sys_close: fp=200d38c count=1
+exec done
+sys_close: fp=200dd7c count=3
+sec_file_permission: known directory path=/etc/rc read=0 write=800 execute=-1
+sys_open: path=/etc/rc flags=0 mode=2013b2c
+sys_read: fp=200780c buf=201d08c size=1
+sys_read: fp=200780c buf=201d08d size=1
+sys_read: fp=200780c buf=201d08e size=1
+sys_read: fp=200780c buf=201d08f size=1
+sys_read: fp=200780c buf=201d090 size=1
+sys_read: fp=200780c buf=201d091 size=1
+sys_read: fp=200780c buf=201d092 size=1
+sys_read: fp=200780c buf=201d093 size=1
+sys_read: fp=200780c buf=201d094 size=1
+sys_read: fp=200780c buf=201d095 size=1
+sys_read: fp=200780c buf=201d096 size=1
+sys_read: fp=200780c buf=201d097 size=1
+sys_read: fp=200780c buf=201d098 size=1
+sys_read: fp=200780c buf=201d099 size=1
+sys_read: fp=200780c buf=201d09a size=1
+sys_read: fp=200780c buf=201d09b size=1
+sys_ioctl: fp=200dd7c request=80047476
+sys_ioctl: comp error=0
+sys_read: fp=200780c buf=201d08c size=1
+sys_read: fp=200780c buf=201d08d size=1
+sys_read: fp=200780c buf=201d08e size=1
+sys_read: fp=200780c buf=201d08f size=1
+sys_read: fp=200780c buf=201d090 size=1
+sys_read: fp=200780c buf=201d091 size=1
+sys_read: fp=200780c buf=201d092 size=1
+sys_ioctl: fp=200dd7c request=80047476
+sys_ioctl: comp error=0
+sys_read: fp=200780c buf=201d08c size=1
+sys_read: fp=200780c buf=201d08d size=1
+sys_read: fp=200780c buf=201d08e size=1
+sys_read: fp=200780c buf=201d08f size=1
+sys_read: fp=200780c buf=201d090 size=1
+sys_read: fp=200780c buf=201d091 size=1
+sys_read: fp=200780c buf=201d092 size=1
+sys_read: fp=200780c buf=201d093 size=1
+sys_read: fp=200780c buf=201d094 size=1
+sys_read: fp=200780c buf=201d095 size=1
+sys_read: fp=200780c buf=201d096 size=1
+sys_read: fp=200780c buf=201d097 size=1
+sys_read: fp=200780c buf=201d098 size=1
+sys_read: fp=200780c buf=201d099 size=1
+sys_read: fp=200780c buf=201d09a size=1
+sys_read: fp=200780c buf=201d09b size=1
+sys_read: fp=200780c buf=201d09c size=1
+sys_ioctl: fp=200dd7c request=80047476
+sys_ioctl: comp error=0
+sys_read: fp=200780c buf=201d08c size=1
+sys_read: fp=200780c buf=201d08d size=1
+sys_read: fp=200780c buf=201d08e size=1
+sys_read: fp=200780c buf=201d08f size=1
+sys_read: fp=200780c buf=201d090 size=1
+sys_read: fp=200780c buf=201d091 size=1
+sys_read: fp=200780c buf=201d092 size=1
+sys_read: fp=200780c buf=201d093 size=1
+sys_read: fp=200780c buf=201d094 size=1
+sys_read: fp=200780c buf=201d095 size=1
+sys_read: fp=200780c buf=201d096 size=1
+fs_fork
+fs_fork-complete
+sys_ioctl: fp=200dd7c request=80047476
+sys_ioctl: comp error=0
+sys_fstat: fp=200dd7c
+sys_write: fp=200dd7c buf=20018ac size=25
+fs_exit
+sys_close: fp=200780c count=2
+sys_close: fp=200dd7c count=4
+sys_close: fp=200dd7c count=3
+sys_ioctl: fp=200dd7c request=80047476
+sys_ioctl: comp error=0
+sys_read: fp=200780c buf=201d08c size=1
+sys_read: fp=200780c buf=201d08d size=1
+sys_read: fp=200780c buf=201d08e size=1
+sys_read: fp=200780c buf=201d08f size=1
+sys_write: fp=200dd7c buf=20018ac size=14
+sys_ioctl: fp=200dd7c request=80047476
+sys_ioctl: comp error=0
+sys_read: fp=200780c buf=201d08c size=1
+sys_read: fp=200780c buf=201d08d size=1
+sys_read: fp=200780c buf=201d08e size=1
+sys_read: fp=200780c buf=201d08f size=1
+sys_read: fp=200780c buf=201d090 size=1
+fs_fork
+fs_fork-complete
+sys_ioctl: fp=200dd7c request=80047476
+sys_ioctl: comp error=0
+sys_open: path=/dev/rtc flags=0 mode=0
+VFS: task=2001714 code=203 error=2
+sys_write: fp=200dd7c buf=2013668 size=4
+sys_write: fp=200dd7c buf=201d6d7 size=1
+sys_write: fp=200dd7c buf=201d6d7 size=1
+sys_write: fp=200dd7c buf=2013658 size=24
+fs_exit
+sys_close: fp=200780c count=2
+sys_close: fp=200dd7c count=4
+sys_close: fp=200dd7c count=3
+sys_ioctl: fp=200dd7c request=80047476
+sys_ioctl: comp error=0
+sys_read: fp=200780c buf=201d08c size=1
+sys_read: fp=200780c buf=201d08d size=1
+sys_read: fp=200780c buf=201d08e size=1
+sys_read: fp=200780c buf=201d08f size=1
+sys_read: fp=200780c buf=201d090 size=1
+fs_fork
+fs_fork-complete
+sys_ioctl: fp=200dd7c request=80047476
+sys_ioctl: comp error=0
+sys_ioctl: fp=200dd7c request=40087468
+sys_ioctl: comp error=0
+sys_stat: path=/
+sys_opendir: path=/
+sys_open: path=/ flags=0 mode=0
+sys_readdir: fp=2001e7c
+sys_readdir: error=0 path=.
+sys_stat: path=/
+sys_readdir: fp=2001e7c
+sys_readdir: error=0 path=..
+sys_stat: path=/
+sys_readdir: fp=2001e7c
+sys_readdir: error=0 path=bin
+sys_stat: path=/bin
+sys_readdir: fp=2001e7c
+sys_readdir: error=0 path=boot
+sys_stat: path=/boot
+sys_readdir: fp=2001e7c
+sys_readdir: error=0 path=dev
+sys_stat: path=/dev
+sys_readdir: fp=2001e7c
+sys_readdir: error=0 path=etc
+sys_stat: path=/etc
+sys_write: fp=200dd7c buf=20018ac size=70
+sys_readdir: fp=2001e7c
+sys_readdir: error=0 path=mnt
+sys_stat: path=/mnt
+sys_readdir: fp=2001e7c
+sys_readdir: error=0 path=private
+sys_stat: path=/private
+sys_readdir: fp=2001e7c
+sys_readdir: error=0 path=tmp
+sys_stat: path=/tmp
+sys_readdir: fp=2001e7c
+sys_readdir: error=2 path=9<Ö
+VFS: task=2001714 code=20e error=2
+sys_closedir: fp=2001e7c
+sys_close: fp=2001e7c count=1
+sys_write: fp=200dd7c buf=20018ac size=58
+fs_exit
+sys_close: fp=200780c count=2
+sys_close: fp=200dd7c count=4
+sys_close: fp=200dd7c count=3
+sys_ioctl: fp=200dd7c request=80047476
+sys_ioctl: comp error=0
+sys_read: fp=200780c buf=201d08c size=1
+sys_read: fp=200780c buf=201d08d size=1
+sys_read: fp=200780c buf=201d08e size=1
+sys_read: fp=200780c buf=201d08f size=1
+sys_read: fp=200780c buf=201d090 size=1
+sys_read: fp=200780c buf=201d091 size=1
+fs_fork
+fs_fork-complete
+sys_ioctl: fp=200dd7c request=80047476
+sys_ioctl: comp error=0
+exec_execve: path=hello task=2001714
+sys_access: path=/hello mode=1
+VFS: task=2003f24 code=21d error=2
+exec: no exec access
+exec failed error=2
+exec: msg error=2 code=300
+exec_execve: path=/boot/hello task=2001714
+sys_access: path=/boot/hello mode=1
+exec: read header for /boot/hello
+sec_file_permission: known directory path=/boot/hello read=800 write=ffffffff execute=0
+sys_open: path=/boot/hello flags=0 mode=0
+sys_fstat: fp=200d38c
+sys_read: fp=200d38c buf=2115e7c size=512
+sys_close: fp=200d38c count=1
+exec: ELF magic  E L F
+exec: loader=elf
+sys_access: path=/boot/hello mode=1
+exec: argc=0 envc=4
+exec: xarg1=(null) xarg2=(null)
+exec: load file image
+sys_access: path=/boot/hello mode=1
+sec_file_permission: known directory path=/boot/hello read=800 write=ffffffff execute=0
+sys_open: path=/boot/hello flags=0 mode=220
+exec: load_reloc
+sys_seek: fp=2001e0c off=9344 type=0
+sys_read: fp=2001e0c buf=201266c size=400
+sys_seek: fp=2001e0c off=52 type=0
+sys_read: fp=2001e0c buf=2023034 size=9020
+sys_seek: fp=2001e0c off=11968 type=0
+sys_read: fp=2001e0c buf=20120ac size=1448
+sys_seek: fp=2001e0c off=9072 type=0
+sys_read: fp=2001e0c buf=2025370 size=126
+sys_seek: fp=2001e0c off=9200 type=0
+sys_read: fp=2001e0c buf=20253f0 size=32
+sys_seek: fp=2001e0c off=9744 type=0
+sys_read: fp=2001e0c buf=201fa7c size=1408
+exec: entry=2023034
+exec: load_reloc ret=0
+sys_close: fp=2001e0c count=1
+exec done
+sys_fstat: fp=200dd7c
+sys_write: fp=200dd7c buf=20211fc size=17
+sys_open: path=/dev/ipc flags=2 mode=18
+sys_write: fp=200dd7c buf=20211fc size=12
+sys_ioctl: fp=200d38c request=10f

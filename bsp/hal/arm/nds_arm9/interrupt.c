@@ -43,7 +43,7 @@
 #define NIRQS		22
 
 /* Registers for interrupt control unit - enable/flag/master */
-#define ICU_IME		(*(volatile uint16_t *)0x4000208)
+#define ICU_IME			(*(volatile uint16_t *)0x4000208)
 #define ICU_IE          (*(volatile uint32_t *)0x4000210)
 #define ICU_IF          (*(volatile uint32_t *)0x4000214)
 
@@ -83,7 +83,7 @@ void
 interrupt_unmask(int vector, int level)
 {
 	int i;
-	uint16_t unmask = (uint32_t)1 << vector;
+	uint32_t unmask = (uint32_t)1 << vector;
 
 	/* Save level mapping */
 	ipl_table[vector] = level;
@@ -105,7 +105,7 @@ void
 interrupt_mask(int vector)
 {
 	int i, level;
-	u_int mask = (uint32_t)~(1 << vector);
+	int32_t mask = (uint32_t)~(1 << vector);
 
 	level = ipl_table[vector];
 	for (i = 0; i < level; i++)
@@ -131,15 +131,14 @@ interrupt_setup(int vector, int mode)
 void
 interrupt_handler(void)
 {
-        uint32_t bits;
-        int vector, old_ipl, new_ipl;
+    uint32_t bits;
+    int vector, old_ipl, new_ipl;
 
 	bits = ICU_IF;
 
 	for (vector = 0; vector < NIRQS; vector++) {
 	    if (bits & (uint32_t)(1 << vector)) {
-
-	        /* Adjust interrupt level */
+				/* Adjust interrupt level */
                 old_ipl = irq_level;
                 new_ipl = ipl_table[vector];
                 if (new_ipl > old_ipl)          /* Ignore spurious interrupt */

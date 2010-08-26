@@ -100,7 +100,6 @@ main(void)
 void
 panic(const char *msg)
 {
-
 	DPRINTF(("Panic: %s\n", msg));
 
 	for (;;) ;

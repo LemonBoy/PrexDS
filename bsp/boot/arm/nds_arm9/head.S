@@ -55,6 +55,6 @@ boot_entry:
     /* to make the bootloader size 0x1FFF (see boot/arm/arch/boot.ld) */
     .section .tail,"ax"
 dummy:
-    .byte   0xff
+	.byte   0xff
 
 .end
