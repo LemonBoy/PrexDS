@@ -24,7 +24,12 @@ SECTIONS {
 		*(.bss)
 		*(COMMON)
 	}
-	. = CONFIG_LOADER_TEXT + 0x1FFF;
+	. = CONFIG_LOADER_TEXT + CONFIG_LOADER_SIZE;
+	.dldistub : {
+		*(.dldistub)
+	}
+	. = CONFIG_LOADER_TEXT + CONFIG_LOADER_SIZE + CONFIG_DLDI_STUB_SIZE - 1;
+	/* -1 for the dummy byte in .tail */
 	.tail : {
 		*(.tail)
 	}

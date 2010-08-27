@@ -24,6 +24,8 @@
 
 struct lcd_softc {
 	device_t       	dev;
+	device_t		ipcdev;
+	irq_t			irq;
 	char          	console[DIAG_CONSOLE_WIDTH][DIAG_CONSOLE_HEIGHT];
 };
 
@@ -63,13 +65,6 @@ static struct wscons_video_ops wscons_lcd_ops = {
 	lcd_get_cursor,		/* get_cursor */
 };
 
-void mem_set (void *dst, uint8_t fill, uint32_t len)
-{
-	uint8_t *p = (uint8_t *)dst;
-	while (len--)
-		*p++ = fill;
-}
-
 static void
 lcd_putc(void *aux, int row, int col, int ch)
 {
@@ -104,6 +99,8 @@ lcd_copyrows(void *aux, int srcrow, int dstrow, int nrows)
 {
     int x, i;
     struct lcd_softc *sc = aux;
+    
+    /*memcpy(&sc->console[0][dstrow], &sc->console[0][srcrow], DIAG_CONSOLE_WIDTH * nrows);*/
 
     for (x = 0; x < DIAG_CONSOLE_HEIGHT; x++)
     {
@@ -121,7 +118,7 @@ lcd_eraserows(void *aux, int row, int nrows)
 {
     struct lcd_softc *sc = aux;
     
-	mem_set(&sc->console[0][row], ' ', DIAG_CONSOLE_WIDTH * nrows);
+	memset(&sc->console[0][row], ' ', DIAG_CONSOLE_WIDTH * nrows);
 }
 
 static void
@@ -143,18 +140,32 @@ lcd_get_cursor(void *aux, int *col, int *row)
 }
 
 static int
+lcd_isr(void *arg)
+{
+	struct lcd_softc *sc = arg;
+	return 0;
+}
+
+static int
 lcd_init(struct driver *self)
 {
-    device_t dev;
+    device_t dev, ipcdev;
     struct lcd_softc *sc;
 
     dev = device_create(self, "lcd", D_CHR|D_TTY);
     sc = device_private(dev);
     
+   	do {
+		ipcdev = device_lookup("ipc");
+	} while(!ipcdev);
+	
+	sc->ipcdev = ipcdev;
+    sc->irq = irq_attach(0, IPL_DISPLAY, 0, lcd_isr, IST_NONE, sc);
+    
     screen_init();
     screen_fill(0);
     
-    mem_set(&sc->console[0][row], ' ', DIAG_CONSOLE_WIDTH * nrows);
+    memset(&sc->console[0][0], ' ', DIAG_CONSOLE_WIDTH * DIAG_CONSOLE_HEIGHT);
     
     wscons_attach_video(&wscons_lcd_ops, sc);
     

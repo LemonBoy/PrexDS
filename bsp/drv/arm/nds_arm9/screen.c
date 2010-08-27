@@ -12,6 +12,7 @@ static uint16_t *video_sub 		= (uint16_t *)BG_BMP_RAM_SUB(0);
 
 void screen_init(void)
 {
+	DISPSTAT = (1 << 3);
 	/* Initialize the screens */
 	POWCNT1 = 0x820E;
 	/* Setup the screens */

@@ -43,6 +43,7 @@ typedef struct {
 #define BG_BMP_RAM(base)  		(((base)*0x4000) + 0x06000000)
 #define BG_BMP_RAM_SUB(base) 	(((base)*0x4000) + 0x06200000)
 
+#define DISPSTAT				(*(volatile uint16_t*)0x04000004)
 #define POWCNT1 				(*(volatile uint16_t*)0x04000304)
 #define DISPLAY_CR 				(*(volatile uint32_t*)0x04000000)
 #define SUB_DISPLAY_CR 			(*(volatile uint32_t*)0x04001000)

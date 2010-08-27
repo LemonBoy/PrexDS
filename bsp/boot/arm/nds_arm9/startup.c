@@ -68,5 +68,11 @@ bootinfo_init(void)
 void
 startup(void)
 {
+	/*uint8_t *dldi_stub = (uint8_t *)0x02002000;
+	uint8_t *vram_d = (uint8_t *)0x06860000;
+	uint32_t stub_size = 1 << dldi_stub[0xD];
+	*(volatile uint8_t *)0x04000243 = (1 << 7);
+	while (stub_size--)
+		*vram_d++ = *dldi_stub++;*/
 	bootinfo_init();
 }

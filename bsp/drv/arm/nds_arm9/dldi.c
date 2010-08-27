@@ -13,6 +13,8 @@ static int dldi_read (device_t, char *, size_t *, int);
 struct dldi_softc {
 	device_t	dev;
 	irq_t		irq;
+	DLDI_INTERFACE *dldi_if;
+	DISC_INTERFACE *disc_if;
 };
 
 static struct devops dldi_devops = {
@@ -34,20 +36,27 @@ struct driver dldi_driver = {
 	/* shutdown */	NULL,
 };
 
-static DLDI_INTERFACE *dldi_if = (DLDI_INTERFACE *)0x02000100;
-static DISC_INTERFACE *disc_if = &((DLDI_INTERFACE *)0x02000100)->ioInterface;
-
-int dldi_valid ()
+void hexdump (void *x, int y)
 {
-	return (dldi_if->magicNumber == DLDI_MAGIC);
+	uint8_t *t = (uint8_t*)x;
+	while (y--)
+	{
+		if (!(y%0x10))
+			printf("\n");
+		printf("%02x ", *t++);
+	}
 }
 
 static int
 dldi_read (device_t dev, char *buf, size_t *nbyte, int blkno)
 {
-	char *secbuf = kmem_map(buf, *nbyte);
+	struct dldi_softc *sc = device_private(dev);
 	
-	if (!dldi_if->ioInterface.readSectors(blkno, (*nbyte) / 512, secbuf))
+	printf("readsectors %x\n", sc->disc_if->readSectors);
+	
+	hexdump((void *)0x06860000, 0xFF);
+	
+	if (!sc->disc_if->readSectors(blkno, (*nbyte) / 512, buf))
 	{
 		*nbyte = 0;
 		printf("DLDI cant read\n");
@@ -63,25 +72,29 @@ dldi_init (struct driver *self)
 	struct dldi_softc *sc;
 	device_t dev;
 	
-	if (!dldi_valid())
-	{
-		printf("DLDI driver not valid\n");
-		return 1;
-	}
-		
 	dev = device_create(self, "dldi", D_REM);
 	sc = device_private(dev);
+
+	sc->dldi_if = ((DLDI_INTERFACE *)0x06860000);
+	sc->disc_if = &sc->dldi_if->ioInterface;
+
+	printf("DLDI driver\n");
 	
-	printf("Driver : %s\n", dldi_if->friendlyName);
-	printf("%x %x\n", disc_if->startup, dldi_if->ioInterface.startup);
+	if (sc->dldi_if->magicNumber != DLDI_MAGIC)
+	{
+		printf("Wrong magic\n");
+		return 1;
+	}
 	
-	if (!disc_if->startup())
+	printf("Driver : %s\n", sc->dldi_if->friendlyName);
+	
+	if (!sc->disc_if->startup())
 	{
 		printf("Cannot initialize the driver\n");
 		return 1;
 	}
 	
-	printf("Startup sent\n");
+	printf("DLDI driver set-up finished\n");
 	
 	return 0;	
 }

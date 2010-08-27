@@ -10,12 +10,23 @@ struct input_softc {
 };
 
 static int	input_init(struct driver *);
+static int input_devctl(device_t, u_long, void *);
+static int input_ioctl(device_t, u_long, void *);
 static int	input_getc(void *);
 static void	input_set_poll(void *, int);
 
+static struct devops input_devops = {
+	/* open */	no_open,
+	/* close */	no_close,
+	/* read */	no_read,
+	/* write */	no_write,
+	/* ioctl */	input_ioctl,
+	/* devctl */input_devctl,
+};
+
 struct driver input_driver = {
 	/* name */	"keypad",
-	/* devops */	NULL,
+	/* devops */&input_devops,
 	/* devsz */	sizeof(struct input_softc),
 	/* flags */	0,
 	/* probe */	NULL,
@@ -41,7 +52,6 @@ input_isr(void *arg)
 {
 	struct input_softc *sc = arg;
 	uint16_t key_bitmap = ~REG_KEYINPUT;
-	uint32_t XYstate;
 	int bit_pos;
 	
 	/* TODO: Works, now rewrite it to make it look clean */
@@ -58,16 +68,6 @@ input_isr(void *arg)
 		}
 			/*wscons_kbd_input(key_map[bit_pos]);*/
 	}
-	
-	if (device_control(sc->ipcdev, 0xF, &XYstate))
-		return -1;
-	
-	XYstate = ~XYstate;
-	
-	if (XYstate&1)
-		wscons_kbd_input(key_map[10]);
-	else if (XYstate&3)
-		wscons_kbd_input(key_map[11]);
 		
 	return 0;
 }
@@ -76,7 +76,7 @@ static int
 input_getc(void *aux)
 {
 	struct input_softc *sc = aux;
-	printf("Wantch?\n");
+	while (1);
 	return 'a';
 }
 
@@ -84,6 +84,18 @@ static void
 input_set_poll(void *aux, int on)
 {
 	return;
+}
+
+static int
+input_devctl (device_t dev, u_long cmd, void *arg)
+{	
+	return 0;
+}
+
+static int
+input_ioctl (device_t dev, u_long cmd, void *arg)
+{	
+	return 0;
 }
 
 static int
@@ -97,12 +109,6 @@ input_init(struct driver *self)
 
 	sc = device_private(dev);
 	sc->dev = dev;
-	
-	do {
-		ipcdev = device_lookup("ipc");
-	} while(!ipcdev);
-	
-	sc->ipcdev = ipcdev;
 	
 	sc->irq = irq_attach(PAD_IRQ, IPL_INPUT, 0, input_isr, IST_NONE, sc);
 

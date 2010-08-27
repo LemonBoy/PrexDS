@@ -20,11 +20,12 @@ makeoptions CFLAGS    += -DEBUG_ARFS
 # Memory address
 #
 
-memory LOADER_TEXT  0x02000000  # Automatically loaded here by the DS firmware
-memory BOOTIMG_BASE 0x02002000  # The Boot Image is concatenated with the Loader
-memory KERNEL_TEXT  0x02100000  # Kernel relocated by the Loader, TODO relocate in ITCM
-memory SYSPAGE_BASE 0x0b000000  # System page in DTCM (stacks)
-
+memory LOADER_TEXT      0x02000000  # Automatically loaded here by the DS firmware
+memory LOADER_SIZE      0x00002000  # Size of the bootloader
+memory DLDI_STUB_SIZE   0x00008000  # Size of the DLDI stub (32k)
+memory BOOTIMG_BASE     0x0200A000  # LOADER_TEXT + LOADER_SIZE + DLDI_STUB_SIZE
+memory KERNEL_TEXT      0x02100000  # Kernel relocated by the Loader, TODO relocate in ITCM
+memory SYSPAGE_BASE     0x0b000000  # System page in DTCM (stacks)
 #
 # Tunable paramters
 #
@@ -64,8 +65,8 @@ options     DIAG_DESMUME    # Diagnostic via desmume emulator
 #options     FIFOFS      # FIFO & Pipe
 options     DEVFS       # Device file system
 options     RAMFS       # RAM file system
-options      ARFS        # Archive file system
-#options     FATFS       # FAT file system
+options     ARFS        # Archive file system
+options     FATFS       # FAT file system
 
 #
 # Power management

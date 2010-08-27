@@ -35,11 +35,17 @@
 int
 main(int argc, char *argv[])
 {
-	printf("Boot task\n");
-	printf("Boot task\n");
-	printf("Boot task\n");
-	printf("Boot task\n");
-	printf("Boot task\n");
-
+	/*fslib_init();*/
+	/*if (mkdir("/media", 0) < 0)
+		printf("Fail1\n");
+	if (mount("/dev/dldi", "/media", "vfat", NULL, 0) < 0)
+		printf("Fail2\n");
+	if (mount("/dev/dldi", "/media", "fatfs", NULL, 0) < 0)
+		printf("double phail\n");*/
+	int lulz = open("/dev/dldi", O_RDWR);
+	uint8_t shiz[0x200];
+	read(lulz, &shiz, 0x200);
+	close(lulz);
+	/*fslib_exit();*/
 	return 0;
 }
