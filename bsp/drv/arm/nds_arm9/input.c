@@ -6,7 +6,6 @@
 struct input_softc {
 	device_t	dev;		/* device object */
 	irq_t		irq;		/* irq handle */
-	device_t	ipcdev;
 };
 
 static int	input_init(struct driver *);
@@ -42,7 +41,35 @@ static struct wscons_kbd_ops wscons_input_ops = {
 #define REG_KEYCNT 		(*(volatile uint16_t *)0x4000132)
 #define REG_KEYINPUT 	(*(volatile uint16_t *)0x4000130)
 
-static char key_map[] = {'l', 'r', 'w', '\n', 'a', 'd', '\n', 'e', 'b', 'a', 'x', 'y'};
+enum {
+	KEY_A,
+	KEY_B,
+	KEY_SELECT,
+	KEY_START,
+	KEY_RIGHT,
+	KEY_LEFT,
+	KEY_UP,
+	KEY_DOWN,
+	KEY_L,
+	KEY_R,
+	KEY_X,
+	KEY_Y,
+	KEY_MAX
+};
+
+static char key_map[] = {
+	'A',
+	'B',
+	'S',
+	'T',
+	'R',
+	'L',
+	'R',
+	'U',
+	'D',
+	'E',
+	'I'
+};
 
 /*
  * Interrupt service routine
@@ -51,24 +78,12 @@ static int
 input_isr(void *arg)
 {
 	struct input_softc *sc = arg;
-	uint16_t key_bitmap = ~REG_KEYINPUT;
-	int bit_pos;
+	int bit_pos = 8;
 	
-	/* TODO: Works, now rewrite it to make it look clean */
-	
-	for (bit_pos = 8; bit_pos >= 0; bit_pos--)
-	{
-		if (((key_bitmap) >> bit_pos)&1)
-		{
-			wscons_kbd_input('l');
-			wscons_kbd_input('s');
-			wscons_kbd_input(' ');
-			wscons_kbd_input('/');
-			wscons_kbd_input('\n');
-		}
-			/*wscons_kbd_input(key_map[bit_pos]);*/
-	}
-		
+	while (bit_pos--)
+		if ((~REG_KEYINPUT >> bit_pos)&1)
+			wscons_kbd_input(key_map[bit_pos]);
+					
 	return 0;
 }
 
@@ -76,8 +91,9 @@ static int
 input_getc(void *aux)
 {
 	struct input_softc *sc = aux;
+	/* Used by the debugger */
 	while (1);
-	return 'a';
+	return ' ';
 }
 
 static void
@@ -86,9 +102,20 @@ input_set_poll(void *aux, int on)
 	return;
 }
 
+#define INPUT_DEVCTL_AUXKEYS 0
+
 static int
 input_devctl (device_t dev, u_long cmd, void *arg)
 {	
+	switch (cmd)
+	{
+		case INPUT_DEVCTL_AUXKEYS:
+			if (((uint32_t *)arg)[0]&1)
+				wscons_kbd_input(key_map[KEY_X]);
+			if (((uint32_t *)arg)[0]&3)
+				wscons_kbd_input(key_map[KEY_Y]);
+			break;
+	}
 	return 0;
 }
 

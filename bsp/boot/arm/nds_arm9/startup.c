@@ -59,8 +59,8 @@ bootinfo_init(void)
 	/*
      * Main ram - 4M
      */
-    bi->ram[0].base = 0x2000000;
-    bi->ram[0].size = 0x0400000;
+	bi->ram[0].base = 0x02010000;
+	bi->ram[0].size = 0x003F0000;
     bi->ram[0].type = MT_USABLE;
 	bi->nr_rams++;
 }
@@ -68,11 +68,5 @@ bootinfo_init(void)
 void
 startup(void)
 {
-	/*uint8_t *dldi_stub = (uint8_t *)0x02002000;
-	uint8_t *vram_d = (uint8_t *)0x06860000;
-	uint32_t stub_size = 1 << dldi_stub[0xD];
-	*(volatile uint8_t *)0x04000243 = (1 << 7);
-	while (stub_size--)
-		*vram_d++ = *dldi_stub++;*/
 	bootinfo_init();
 }

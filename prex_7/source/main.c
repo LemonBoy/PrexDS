@@ -11,12 +11,6 @@
 
 #define MAKE_IPC_MSG(channel, data) ((channel & 3) << 30 | (data & IPC_DATA_MASK))
 
-#define IPC_CHAN_SYSTEM 0x0
-#define IPC_CHAN_INPUT  0x1
-
-#define IPC_DEVCTL_RTC   0xE
-#define IPC_DEVCTL_INPUT 0xF
-
 static int exitFlag = 0;
 
 int queuePop (u32 *msg)
@@ -53,15 +47,7 @@ int main() {
 
 	while (!exitFlag) 
     {
-	    while (queuePop(&fifoMsg))
-        { 
-			switch (fifoMsg & IPC_DATA_MASK)
-			{
-				case 0xF:
-					queuePush(MAKE_IPC_MSG(IPC_CHAN_INPUT, ((u32)*(volatile u16*)0x04000136)));
-					break;
-			}
-        }
+		ipc_area->aux_keys = 0xbeef;/*((~(*(volatile u16 *)0x04000136))&0xFF);*/
 	}
 	return 0;
 }

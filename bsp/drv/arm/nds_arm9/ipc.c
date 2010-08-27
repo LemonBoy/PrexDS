@@ -36,12 +36,6 @@ struct driver ipc_driver = {
 	/* shutdown */	NULL,
 };
 
-#define IPC_CHAN_SYSTEM 0x0
-#define IPC_CHAN_INPUT  0x1
-
-#define IPC_DEVCTL_RTC   0xE
-#define IPC_DEVCTL_INPUT 0xF
-
 /* Time (in msec) to wait before retrying a fetch on the queue */
 #define IPC_RETRY_DELAY 200
 
@@ -116,35 +110,19 @@ ipc_recv_isr(void *arg)
  * devctl handler, aka the interface with the world.
  */
 
+#define IPC_DEVCTL_AUXKEYS 0
+
 static int
 ipc_devctl (device_t dev, u_long cmd, void *arg)
-{
-	uint32_t request, response, channel;
-	int msglen = 1;
-	
+{	
 	switch (cmd)
 	{
-		case IPC_DEVCTL_INPUT:
-			channel = IPC_CHAN_INPUT;
-			request = MAKE_IPC_MSG(channel, cmd);
-			break;
-		case IPC_DEVCTL_RTC:
-			channel = IPC_CHAN_SYSTEM;
-			msglen  = 2;
-			request = MAKE_IPC_MSG(channel, cmd);
-			break;
+		case IPC_DEVCTL_AUXKEYS:
+			((uint32_t *)arg)[0] = ipc_area->aux_keys; break;
 		default:
 			printf("Unrecognized DEVCTL %x\n", cmd);
 			return -1;
 	}
-
-	while (!ipc_push(request));
-
-	do {
-		while (!queue_pop(&response, channel));
-		((uint32_t *)arg)[msglen-1] = response & IPC_DATA_MASK;
-		msglen--;
-	} while (msglen);
 
 	return 0;
 }

@@ -20,7 +20,7 @@
 #define CONFIG_CMDBOX y
 #define CONFIG_TINY y
 #define CONFIG_KD y
-#define CONFIG_DIAG_DESMUME y
+#define CONFIG_FIFOFS y
 #define CONFIG_DEVFS y
 #define CONFIG_RAMFS y
 #define CONFIG_ARFS y
@@ -28,11 +28,11 @@
 #define CONFIG_IPC y
 #define CONFIG_CONS y
 #define CONFIG_WSCONS y
+#define CONFIG_INPUT y
 #define CONFIG_LCD y
 #define CONFIG_NULL y
 #define CONFIG_ZERO y
 #define CONFIG_RAMDISK y
-#define CONFIG_INPUT y
 #define CONFIG_DLDI y
 #define CONFIG_CMD_CAT y
 #define CONFIG_CMD_CLEAR y

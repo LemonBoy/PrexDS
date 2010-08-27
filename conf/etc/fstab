@@ -3,6 +3,6 @@
 # Device	Mountpoint	VFSType
 
 none		/		ramfs
-/dev/ram0	/boot		arfs
-none		/dev		devfs
-
+/dev/ram0	/boot	arfs
+none		/dev	devfs
+/dev/dldi   /media  fatfs

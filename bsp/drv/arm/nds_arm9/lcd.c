@@ -25,6 +25,7 @@
 struct lcd_softc {
 	device_t       	dev;
 	device_t		ipcdev;
+	device_t		inputdev;
 	irq_t			irq;
 	char          	console[DIAG_CONSOLE_WIDTH][DIAG_CONSOLE_HEIGHT];
 };
@@ -143,13 +144,18 @@ static int
 lcd_isr(void *arg)
 {
 	struct lcd_softc *sc = arg;
+	uint16_t aux_keys;
+	
+	device_control(sc->ipcdev, 0, &aux_keys);
+	device_control(sc->inputdev, 0, &aux_keys);
+	
 	return 0;
 }
 
 static int
 lcd_init(struct driver *self)
 {
-    device_t dev, ipcdev;
+    device_t dev, ipcdev, inputdev;
     struct lcd_softc *sc;
 
     dev = device_create(self, "lcd", D_CHR|D_TTY);
@@ -157,9 +163,11 @@ lcd_init(struct driver *self)
     
    	do {
 		ipcdev = device_lookup("ipc");
-	} while(!ipcdev);
+		inputdev = device_lookup("kbd");
+	} while(!ipcdev || !inputdev);
 	
 	sc->ipcdev = ipcdev;
+	sc->inputdev = inputdev;
     sc->irq = irq_attach(0, IPL_DISPLAY, 0, lcd_isr, IST_NONE, sc);
     
     screen_init();

@@ -12,6 +12,7 @@ makeoptions CFLAGS    += -O0 -g -DDEBUG
 makeoptions CFLAGS    += -DDEBUG_BOOTINFO 
 makeoptions CFLAGS    += -DDEBUG_EXEC
 makeoptions CFLAGS    += -DDEBUG_VFS 
+makeoptions CFLAGS    += -DDEBUG_FATFS
 makeoptions CFLAGS    += -DEBUG_ARFS 
 
 
@@ -57,12 +58,12 @@ options     KD      # Kernel debugger
 #
 # Diagnostic options
 #
-options     DIAG_DESMUME    # Diagnostic via desmume emulator
+#options     DIAG_DESMUME    # Diagnostic via desmume emulator
 
 #
 # File systems
 #
-#options     FIFOFS      # FIFO & Pipe
+options     FIFOFS      # FIFO & Pipe
 options     DEVFS       # Device file system
 options     RAMFS       # RAM file system
 options     ARFS        # Archive file system
@@ -82,11 +83,11 @@ options     FATFS       # FAT file system
 device      ipc           # Arm7/9 bridge
 device      cons          # System console
 device      wscons        # Workstation console
+device      input
 device      lcd           # LCD video (P:wscons)
 device      null          # NULL device
 device      zero          # Zero device
 device      ramdisk       # RAM disk
-device      input
 device      dldi
 
 #

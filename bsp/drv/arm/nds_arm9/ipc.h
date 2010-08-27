@@ -39,4 +39,17 @@
 #define ICU_IPC_RECV_FIFO_NOT_EMPTY     18
 #define ICU_IPC_SEND_FIFO_EMPTY         17
 
+/*
+ * IPC Area 
+ */
+
+typedef struct 
+{
+	uint16_t aux_keys;
+	uint16_t touch_x;
+	uint16_t touch_y;
+} IPC_AREA;
+
+#define ipc_area ((IPC_AREA *)0x027FF000)
+
 #endif /* IPC_H_ */
