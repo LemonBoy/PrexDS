@@ -20,6 +20,7 @@
 #define CONFIG_CMDBOX y
 #define CONFIG_TINY y
 #define CONFIG_KD y
+#define CONFIG_DIAG_DESMUME y
 #define CONFIG_FIFOFS y
 #define CONFIG_DEVFS y
 #define CONFIG_RAMFS y

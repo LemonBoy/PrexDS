@@ -31,8 +31,6 @@ int queuePush (u32 msg)
 
 int main() {
 	u32 fifoMsg;
-	
-	readUserSettings();
 
 	irqInit();
 	fifoInit();
@@ -44,7 +42,7 @@ int main() {
 
 	/* fifoInit doesnt do this D: */
     IPC_FIFO_CNT = IPC_FIFO_ENABLE;
-
+    
 	while (!exitFlag) 
     {
 		ipc_area->aux_keys = 0xbeef;/*((~(*(volatile u16 *)0x04000136))&0xFF);*/

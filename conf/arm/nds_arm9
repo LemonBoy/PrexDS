@@ -58,7 +58,7 @@ options     KD      # Kernel debugger
 #
 # Diagnostic options
 #
-#options     DIAG_DESMUME    # Diagnostic via desmume emulator
+options     DIAG_DESMUME    # Diagnostic via desmume emulator
 
 #
 # File systems

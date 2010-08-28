@@ -51,8 +51,8 @@
 #define TEMP_DATE   0x3021
 #define TEMP_TIME   0
 
-static int fatfs_open	(vnode_t, int);
-static int fatfs_close	(vnode_t, file_t);
+#define fatfs_open	((vnop_open_t)vop_nullop)
+#define fatfs_close	((vnop_close_t)vop_nullop)
 static int fatfs_read	(vnode_t, file_t, void *, size_t, size_t *);
 static int fatfs_write	(vnode_t, file_t, void *, size_t, size_t *);
 #define fatfs_seek	((vnop_seek_t)vop_nullop)
@@ -122,26 +122,6 @@ fat_write_cluster(struct fatfsmount *fmp, u_long cluster)
 	return device_write(fmp->dev, fmp->io_buf, &size, sec);
 }
 
-static int
-fatfs_open(vnode_t vp, int flags)
-{
-	return 0;
-}
-
-static int
-fatfs_close(vnode_t vp, file_t file)
-{
-	struct fatfsmount *fmp;
-#ifdef CONFIG_FATFS_CACHE
-	int i;
-
-	fmp = vp->v_mount->m_data;
-	for(i = 0; i < FATFS_CACHE_SECT; i++)
-		cache_flush_sect_entry(fmp, i);
-#endif
-	return 0;
-}
-
 /*
  * Lookup vnode for the specified file/directory.
  * The vnode data will be set properly.
@@ -174,9 +154,9 @@ fatfs_lookup(vnode_t dvp, char *name, vnode_t vp)
 	fat_attr_to_mode(de->attr, &vp->v_mode);
 	vp->v_mode = ALLPERMS;
 	vp->v_size = de->size;
-	vp->v_blkno = (de->cluster_hi << 16) | de->cluster;
+	vp->v_blkno = de->cluster;
 
-	DPRINTF(("fatfs_lookup: cl=%d\n", vp->v_blkno));
+	DPRINTF(("fatfs_lookup: cl=%d\n", de->cluster));
 	mutex_unlock(&fmp->lock);
 	return 0;
 }
@@ -262,7 +242,7 @@ fatfs_write(vnode_t vp, file_t fp, void *buf, size_t size, size_t *result)
 	u_long file_pos, end_pos;
 	u_long cl;
 
-	DPRINTF(("fatfs_write: vp=%x size=%d\n", vp, size));
+	DPRINTF(("fatfs_write: vp=%x\n", vp));
 
 	*result = 0;
 	fmp = vp->v_mount->m_data;
@@ -420,8 +400,7 @@ fatfs_create(vnode_t dvp, char *name, mode_t mode)
 	de = &np.dirent;
 	memset(de, 0, sizeof(struct fat_dirent));
 	fat_convert_name(name, (char *)de->name);
-	de->cluster_hi = (cl & 0xFFFF0000) >> 16;
-	de->cluster = cl & 0x0000FFFF;
+	de->cluster = cl;
 	de->time = TEMP_TIME;
 	de->date = TEMP_DATE;
 	fat_mode_to_attr(mode, &de->attr);
@@ -462,7 +441,7 @@ fatfs_remove(vnode_t dvp, vnode_t vp, char *name)
 	}
 
 	/* Remove clusters */
-	error = fat_free_clusters(fmp, (de->cluster_hi << 16) | de->cluster);
+	error = fat_free_clusters(fmp, de->cluster);
 	if (error)
 		goto out;
 
@@ -540,23 +519,21 @@ fatfs_rename(vnode_t dvp1, vnode_t vp1, char *name1,
 				goto out;
 
 			/* Update "." and ".." for renamed directory */
-			if (fat_read_cluster(fmp,(de1->cluster_hi << 16) |  de1->cluster)) {
+			if (fat_read_cluster(fmp, de1->cluster)) {
 				error = EIO;
 				goto out;
 			}
 
 			de2 = (struct fat_dirent *)fmp->io_buf;
-			de2->cluster_hi = de1->cluster_hi;
 			de2->cluster = de1->cluster;
 			de2->time = TEMP_TIME;
 			de2->date = TEMP_DATE;
 			de2++;
-			de2->cluster_hi = (dvp2->v_blkno & 0xFFFF0000) >> 16;
-			de2->cluster = dvp2->v_blkno & 0x0000FFFF;
+			de2->cluster = dvp2->v_blkno;
 			de2->time = TEMP_TIME;
 			de2->date = TEMP_DATE;
 
-			if (fat_write_cluster(fmp,(de1->cluster_hi << 16) |  de1->cluster)) {
+			if (fat_write_cluster(fmp, de1->cluster)) {
 				error = EIO;
 				goto out;
 			}
@@ -598,8 +575,7 @@ fatfs_mkdir(vnode_t dvp, char *name, mode_t mode)
 	memset(&np, 0, sizeof(struct fatfs_node));
 	de = &np.dirent;
 	fat_convert_name(name, (char *)&de->name);
-	de->cluster_hi = (cl & 0xFFFF0000) >> 16;
-	de->cluster = cl & 0x0000FFFF;
+	de->cluster = cl;
 	de->time = TEMP_TIME;
 	de->date = TEMP_DATE;
 	fat_mode_to_attr(mode, &de->attr);
@@ -613,15 +589,13 @@ fatfs_mkdir(vnode_t dvp, char *name, mode_t mode)
 	de = (struct fat_dirent *)fmp->io_buf;
 	memcpy(de->name, ".          ", 11);
 	de->attr = FA_SUBDIR;
-	de->cluster_hi = (cl & 0xFFFF0000) >> 16;
-	de->cluster = cl & 0x0000FFFF;
+	de->cluster = cl;
 	de->time = TEMP_TIME;
 	de->date = TEMP_DATE;
 	de++;
 	memcpy(de->name, "..         ", 11);
 	de->attr = FA_SUBDIR;
-	de->cluster_hi = (dvp->v_blkno & 0xFFFF0000) >> 16;
-	de->cluster = dvp->v_blkno & 0x0000FFFF;
+	de->cluster = dvp->v_blkno;
 	de->time = TEMP_TIME;
 	de->date = TEMP_DATE;
 
@@ -664,7 +638,7 @@ fatfs_rmdir(vnode_t dvp, vnode_t vp, char *name)
 	}
 
 	/* Remove clusters */
-	error = fat_free_clusters(fmp, (de->cluster_hi << 16) | de->cluster);
+	error = fat_free_clusters(fmp, de->cluster);
 	if (error)
 		goto out;
 
@@ -716,7 +690,7 @@ fatfs_truncate(vnode_t vp, off_t length)
 
 	if (length == 0) {
 		/* Remove clusters */
-		error = fat_free_clusters(fmp, (de->cluster_hi << 16) | de->cluster);
+		error = fat_free_clusters(fmp, de->cluster);
 		if (error)
 			goto out;
 	} else if (length > vp->v_size) {

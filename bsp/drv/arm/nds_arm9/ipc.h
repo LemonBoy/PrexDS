@@ -48,8 +48,9 @@ typedef struct
 	uint16_t aux_keys;
 	uint16_t touch_x;
 	uint16_t touch_y;
+	uint8_t  mac_addr[8];
 } IPC_AREA;
 
-#define ipc_area ((IPC_AREA *)0x027FF000)
+#define ipc_area ((IPC_AREA volatile *)0x027ff000)
 
 #endif /* IPC_H_ */

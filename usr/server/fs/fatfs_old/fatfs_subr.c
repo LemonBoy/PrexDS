@@ -64,6 +64,23 @@ fat_convert_name(char *org, char *name)
 }
 
 /*
+ * Append a chunk of name to a string buffer
+ */
+
+void
+fat_append_lfn_chunk (char *buf, struct fat_dirent_lfn *de_lfn)
+{
+	int x;
+	
+	for (x = 0; x < 5; x++)
+		buf[GET_LFN_POS(de_lfn->index) + x] = de_lfn->name_1[x];
+	for (x = 0; x < 6; x++)
+		buf[GET_LFN_POS(de_lfn->index) + 5 + x] = de_lfn->name_2[x];			
+	for (x = 0; x < 2; x++)
+		buf[GET_LFN_POS(de_lfn->index) + 11 + x] = de_lfn->name_3[x];
+} 
+
+/*
  * Restore file name to normal format
  *  Ex. "foo     bar" => "foo.bar"
  */
@@ -166,23 +183,6 @@ fat_mode_to_attr(mode_t mode, u_char *attr)
 	if (S_ISDIR(mode))
 		*attr |= FA_SUBDIR;
 }
-
-/*
- * Append a chunk of name to a string buffer
- */
-
-void
-fat_append_lfn_chunk (char *buf, struct fat_dirent_lfn *de_lfn)
-{
-	int x;
-	
-	for (x = 0; x < 5; x++)
-		buf[GET_LFN_POS(de_lfn->index) + x] = de_lfn->name_1[x];
-	for (x = 0; x < 6; x++)
-		buf[GET_LFN_POS(de_lfn->index) + 5 + x] = de_lfn->name_2[x];			
-	for (x = 0; x < 2; x++)
-		buf[GET_LFN_POS(de_lfn->index) + 11 + x] = de_lfn->name_3[x];
-} 
 
 /*
  * attribute -> mode

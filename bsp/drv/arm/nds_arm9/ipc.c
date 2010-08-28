@@ -144,7 +144,7 @@ ipc_init(struct driver *self)
 	IPC_FIFO_CNT |= IPC_RECV_FIFO_NOT_EMPTY_IRQ;
 	
 	printf("Registers set\n");	
-	
+			
 	sc->irq = irq_attach(ICU_IPC_RECV_FIFO_NOT_EMPTY, IPL_HIGH, 0, ipc_recv_isr, IST_NONE, sc);
 			     
 	printf("Attacched IRQ handler\n");
